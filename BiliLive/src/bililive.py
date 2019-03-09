@@ -29,7 +29,7 @@ class BiliLive(object):
                                       os.path.abspath('.') + '/BiliLive/font/BONX-Medium.otf')
         image = ImageCtrl.image_write(image, text_flame(text), location, size, (0, 0, 0, 0),
                                       os.path.abspath('.') + '/BiliLive/font/BONX-Frame.otf')
-        image = ImageCtrl.image_write(image, '2020考研剩余', (100, 100), 60, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, (255, 117, 0, 0),
                                       os.path.abspath('.') + '/BiliLive/font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, '秒', (1000, 530), 60, (255, 117, 0, 0),
                                       os.path.abspath('.') + '/BiliLive/font/SetoFont-1.ttf')
@@ -41,19 +41,31 @@ class BiliLive(object):
 
     def run(self):
         """运行"""
-        command = ['ffmpeg',
-                   '-y',
-                   '-f', 'rawvideo',
-                   '-vcodec', 'rawvideo',
-                   '-pix_fmt', 'bgr24',
-                   '-s', '1280x720',
-                   '-r', '5',
-                   '-i', '-',
-                   '-c:v', 'libx264',
-                   '-pix_fmt', 'yuv420p',
-                   '-preset', 'ultrafast',
-                   '-f', 'flv',
-                   self.ru]
+        command2 = ['ffmpeg',
+                    '-y',
+                    '-f', 'rawvideo',
+                    '-vcodec', 'rawvideo',
+                    '-pix_fmt', 'bgr24',
+                    '-s', '1280x720',
+                    '-r', '25',
+                    '-i', '-',
+                    '-c:v', 'libx264',
+                    '-pix_fmt', 'yuv420p',
+                    '-preset', 'ultrafast',
+                    '-f', 'flv',
+                    self.ru]
+        command = [
+            'ffmpeg',
+            '-y',
+            '-f', 'rawvideo',
+            '-vcodec', 'rawvideo',
+            '-pix_fmt', 'bgr24',
+            '-s', '1280x720',
+            '-r', '25',
+            '-i', '-',
+            '-f', 'flv',
+            self.ru
+        ]
         pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
 
         while True:
