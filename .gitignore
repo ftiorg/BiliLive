@@ -1,0 +1,6 @@
+*.pyc
+*.mp4
+*.jpg
+/.idea
+/tmp
+/test.py
