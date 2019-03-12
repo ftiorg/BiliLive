@@ -2,7 +2,7 @@
 -------------
 这是B站直播间https://live.bilibili.com/1598896的源码  
 当前是一个2020年的考研倒计时
-
+![blive](https://static.isdut.cn/ii/images/2019/03/09/7a2b04458fe174fca938571bad4051a2.jpg)
 ### 原理
 opencv和Pillow生成倒计时的图片，使用ffmpeg进行rtmp推流
 
