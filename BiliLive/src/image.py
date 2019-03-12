@@ -43,3 +43,7 @@ class ImageCtrl(object):
     @staticmethod
     def image_tostring(image):
         return image.tostring()
+
+    @staticmethod
+    def image_save(image, path):
+        cv2.imwrite(path, image)

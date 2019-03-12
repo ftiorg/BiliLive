@@ -15,9 +15,10 @@ class BiliLive(object):
         self.ru = rtmpurl
         self.et = int(time.mktime(time.strptime(endtime, '%Y-%m-%d %H:%M:%S')))
 
-    def make_image(self):
+    def make_image(self, text=None, save=False):
         """生成帧"""
-        text = str(self.et - int(time.time()))
+        if text == None:
+            text = str(self.et - int(time.time()))
         text_flame = lambda x: ''.zfill(len(x))
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
@@ -37,10 +38,13 @@ class BiliLive(object):
                                       os.path.abspath('.') + '/BiliLive/font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, (255, 117, 0, 0),
                                       os.path.abspath('.') + '/BiliLive/font/SetoFont-1.ttf')
+        if save == True:
+            ImageCtrl.image_save(image, os.path.abspath('.') + '/BiliLive/save/' + text + '.jpg')
         return ImageCtrl.image_tostring(image)
 
     def run(self):
         """运行"""
+        """
         command2 = ['ffmpeg',
                     '-y',
                     '-f', 'rawvideo',
@@ -54,6 +58,7 @@ class BiliLive(object):
                     '-preset', 'ultrafast',
                     '-f', 'flv',
                     self.ru]
+        """
         command = [
             'ffmpeg',
             '-y',
