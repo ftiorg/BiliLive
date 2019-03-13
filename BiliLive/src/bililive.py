@@ -17,6 +17,12 @@ class BiliLive(object):
         self.et = int(time.mktime(time.strptime(endtime, '%Y-%m-%d %H:%M:%S')))
         self.rp = os.path.abspath('.') + '/BiliLive/'
         self.st = int(time.time())
+        if not os.path.exists(self.rp + 'temp'):
+            os.mkdir(self.rp + 'temp', 777)
+            print("CREATE DIR -> TEMP")
+        if not os.path.exists(self.rp + 'save'):
+            os.mkdir(self.rp + 'save', 777)
+            print("CREATE DIR -> SAVE")
 
     def make_image(self, text=None, save=None):
         """生成帧"""
