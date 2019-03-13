@@ -1,6 +1,6 @@
 # BiliLive
 -------------
-这是B站直播间https://live.bilibili.com/1598896的源码  
+这是B站直播间https://live.bilibili.com/1598896 的源码  
 当前是一个2020年的考研倒计时
 ![blive](https://static.isdut.cn/ii/images/2019/03/09/7a2b04458fe174fca938571bad4051a2.jpg)
 ### 原理
@@ -25,7 +25,7 @@ python run.py
 如果侵犯了您的版权，请联系开发者，十分感谢
 
 ### TODO
-鸽了
+加背景音乐
 
 ## License
 MIT
