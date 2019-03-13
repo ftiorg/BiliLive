@@ -54,7 +54,6 @@ class BiliLive(object):
                 time.sleep(0.1)
                 continue
             print("MAKE IMAGE -> %s" % sec)
-            # self.make_image(str(self.et - sec), '{rp}temp/{sec}.jpg'.format(rp=self.rp, sec=sec))
             with open('{rp}temp/{sec}.jpgx'.format(rp=self.rp, sec=sec), 'wb') as image:
                 image.write(self.make_image(str(self.et - sec)))
             sec += 1
@@ -82,22 +81,33 @@ class BiliLive(object):
             '-vcodec', 'rawvideo',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
-            '-r', '30',
+            '-r', '24',
             '-i', '-',
+            '-i', self.rp + 'save/bgm.mp3',
             '-f', 'flv',
             self.ru
         ]
         pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
         while True:
             ct = int(time.time())
-            # print("PUSH IMAGE -> %s" % ct)
             if os.path.exists(self.rp + 'temp/%s.jpgx' % ct):
-                # frame = ImageCtrl.image_read(self.rp + 'temp/%s.jpgx' % ct)
-                # pipe.stdin.write(ImageCtrl.image_tostring(frame))
                 with open(self.rp + 'temp/%s.jpgx' % ct, 'rb') as image:
                     pipe.stdin.write(image.read())
             else:
                 print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
+
+    def __clean_temp(self):
+        """删除所有缓存"""
+        for file in os.listdir(self.rp + 'temp'):
+            os.remove(self.rp + 'temp/' + file)
+            print("CLEAN IMAGE -> %s" % file.replace('.jpgx', ''))
+
+    def __del__(self):
+        self.__clean_temp()
+
+    def test(self):
+        image = self.make_image(str(self.et - int(time.time())))
+        ImageCtrl.image_show(ImageCtrl.image_fromstring(image))
 
     def run(self):
         """运行"""

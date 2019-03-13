@@ -5,3 +5,5 @@
 
 from BiliLive.src.bililive import BiliLive
 from BiliLive.src.image import ImageCtrl
+from BiliLive.src.rtmp import Rtmp
+from BiliLive.src.error import Error

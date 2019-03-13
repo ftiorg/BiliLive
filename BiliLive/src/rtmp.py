@@ -10,7 +10,7 @@ librtmp安装失败，这里用ffmpeg进行推流
 import os
 import time
 
-class rtmp(object):
+class Rtmp(object):
     def __init__(self,url):
         """初始化设置推流地址"""
         self.url = url

@@ -45,5 +45,9 @@ class ImageCtrl(object):
         return image.tostring()
 
     @staticmethod
+    def image_fromstring(string):
+        return numpy.fromstring(string)
+
+    @staticmethod
     def image_save(image, path):
         cv2.imwrite(path, image)

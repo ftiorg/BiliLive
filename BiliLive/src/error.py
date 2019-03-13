@@ -2,3 +2,7 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2019/3/8 下午 08:59
 # @Author  : kamino
+
+class Error(Exception):
+    def __init__(self, msg=None):
+        print(msg)
