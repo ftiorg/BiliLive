@@ -83,7 +83,7 @@ class BiliLive(object):
             '-s', '1280x720',
             '-r', '24',
             '-i', '-',
-            '-i', self.rp + 'save/bgm.mp3',
+            # '-i', self.rp + 'save/bgm.mp3',
             '-f', 'flv',
             self.ru
         ]
