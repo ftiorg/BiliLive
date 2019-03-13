@@ -4,3 +4,4 @@
 # @Author  : kamino
 
 from BiliLive.src.bililive import BiliLive
+from BiliLive.src.image import ImageCtrl

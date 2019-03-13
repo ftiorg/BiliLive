@@ -54,7 +54,9 @@ class BiliLive(object):
                 time.sleep(0.1)
                 continue
             print("MAKE IMAGE -> %s" % sec)
-            self.make_image(str(self.et - sec), '{rp}temp/{sec}.jpg'.format(rp=self.rp, sec=sec))
+            # self.make_image(str(self.et - sec), '{rp}temp/{sec}.jpg'.format(rp=self.rp, sec=sec))
+            with open('{rp}temp/{sec}.jpgx'.format(rp=self.rp, sec=sec), 'wb') as image:
+                image.write(self.make_image(str(self.et - sec)))
             sec += 1
             time.sleep(0.5)
 
@@ -64,9 +66,9 @@ class BiliLive(object):
         while True:
             if len(os.listdir(self.rp + 'temp')) >= 100:
                 for file in os.listdir(self.rp + 'temp'):
-                    if int(file.replace('.jpg', '')) < int(time.time()):
+                    if int(file.replace('.jpgx', '')) < int(time.time()):
                         os.remove(self.rp + 'temp/' + file)
-                        print("CLEAN IMAGE -> %s" % file.replace('.jpg', ''))
+                        print("CLEAN IMAGE -> %s" % file.replace('.jpgx', ''))
             time.sleep(1)
 
     def __push_thread(self):
@@ -80,7 +82,7 @@ class BiliLive(object):
             '-vcodec', 'rawvideo',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
-            '-r', '23',
+            '-r', '30',
             '-i', '-',
             '-f', 'flv',
             self.ru
@@ -89,46 +91,16 @@ class BiliLive(object):
         while True:
             ct = int(time.time())
             # print("PUSH IMAGE -> %s" % ct)
-            if os.path.exists(self.rp + 'temp/%s.jpg' % ct):
-                frame = ImageCtrl.image_read(self.rp + 'temp/%s.jpg' % ct)
-                pipe.stdin.write(ImageCtrl.image_tostring(frame))
+            if os.path.exists(self.rp + 'temp/%s.jpgx' % ct):
+                # frame = ImageCtrl.image_read(self.rp + 'temp/%s.jpgx' % ct)
+                # pipe.stdin.write(ImageCtrl.image_tostring(frame))
+                with open(self.rp + 'temp/%s.jpgx' % ct, 'rb') as image:
+                    pipe.stdin.write(image.read())
             else:
-                print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpg' % ct))
+                print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
 
     def run(self):
         """运行"""
-        """
-        command2 = ['ffmpeg',
-                    '-y',
-                    '-f', 'rawvideo',
-                    '-vcodec', 'rawvideo',
-                    '-pix_fmt', 'bgr24',
-                    '-s', '1280x720',
-                    '-r', '25',
-                    '-i', '-',
-                    '-c:v', 'libx264',
-                    '-pix_fmt', 'yuv420p',
-                    '-preset', 'ultrafast',
-                    '-f', 'flv',
-                    self.ru]
-        command = [
-            'ffmpeg',
-            '-y',
-            '-f', 'rawvideo',
-            '-vcodec', 'rawvideo',
-            '-pix_fmt', 'bgr24',
-            '-s', '1280x720',
-            '-r', '23',
-            '-i', '-',
-            '-f', 'flv',
-            self.ru
-        ]
-        pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
-
-        while True:
-            data = self.make_image()
-            pipe.stdin.write(data)
-        """
         threading.Thread(target=self.__make_thread).start()
         threading.Thread(target=self.__clean_thread).start()
         threading.Thread(target=self.__push_thread).start()

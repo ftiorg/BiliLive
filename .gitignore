@@ -1,6 +1,7 @@
 *.pyc
 *.mp4
 *.jpg
+*.jpgx
 /.idea
 /tmp
 /test.py
