@@ -63,6 +63,8 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
+        image = ImageCtrl.image_write(image, 'BGM: stars in the rain - Aimer', (20, 680), 20, (255, 117, 0, 0),
+                                      self.rp + 'font/SetoFont-1.ttf')
         if save != None:
             ImageCtrl.image_save(image, save)
         return ImageCtrl.image_tostring(image)
