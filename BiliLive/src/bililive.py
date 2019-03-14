@@ -7,16 +7,17 @@ import os
 import time
 import subprocess
 import threading
+import json
 from .image import ImageCtrl
 from .audio import AudioCtrl
 from .error import Error
 
 
 class BiliLive(object):
-    def __init__(self, endtime, rtmpurl):
+    def __init__(self, endtime=None, rtmpurl=None):
         """初始化"""
         self.ru = rtmpurl  # 推流地址
-        self.et = int(time.mktime(time.strptime(endtime, '%Y-%m-%d %H:%M:%S')))  # 结束时间
+        self.et = endtime and int(time.mktime(time.strptime(endtime, '%Y-%m-%d %H:%M:%S')))  # 结束时间
         self.rp = os.path.abspath('.') + '/BiliLive/'  # BiliLive目录
         self.st = int(time.time())  # 开始时间
         self.ef = False  # 错误标识符
@@ -26,6 +27,18 @@ class BiliLive(object):
         if not os.path.exists(self.rp + 'save'):
             os.mkdir(self.rp + 'save', 777)
             print("CREATE DIR -> SAVE")
+
+    def config(self, config=None):
+        """设置配置文件"""
+        if os.path.exists(config):
+            print("LOAD CONFIG FROM %s" % config)
+            with open(config, 'r') as c:
+                setting = json.loads(c.read())
+                print(setting)
+                self.ru = setting['rtmp-url']
+                self.et = int(time.mktime(time.strptime(setting['end-time'], '%Y-%m-%d %H:%M:%S')))
+        else:
+            print("FILE NOT FOUND %s" % config)
 
     def make_image(self, text=None, save=None):
         """生成帧"""
@@ -74,7 +87,7 @@ class BiliLive(object):
         """清理缓存线程"""
         print("CLEAN THREAD START")
         while not self.ef:
-            if len(os.listdir(self.rp + 'temp')) > 100:
+            if len(os.listdir(self.rp + 'temp')) >= 100:
                 for file in os.listdir(self.rp + 'temp'):
                     if int(file.replace('.jpgx', '')) < int(time.time()):
                         os.remove(self.rp + 'temp/' + file)
@@ -128,7 +141,7 @@ class BiliLive(object):
 
     def __del__(self):
         """退出时清理"""
-        self._clean_temp()
+        # self._clean_temp()
 
     def test(self):
         """
