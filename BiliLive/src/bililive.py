@@ -66,7 +66,7 @@ class BiliLive(object):
             with open('{rp}temp/{sec}.jpgx'.format(rp=self.rp, sec=sec), 'wb') as image:
                 image.write(self.make_image(str(self.et - sec)))
             sec += 1
-            time.sleep(0.5)
+            time.sleep(0.1)
         if self.ef:
             print("MAKE THREAD EXIT")
 
@@ -74,7 +74,7 @@ class BiliLive(object):
         """清理缓存线程"""
         print("CLEAN THREAD START")
         while not self.ef:
-            if len(os.listdir(self.rp + 'temp')) >= 100:
+            if len(os.listdir(self.rp + 'temp')) > 100:
                 for file in os.listdir(self.rp + 'temp'):
                     if int(file.replace('.jpgx', '')) < int(time.time()):
                         os.remove(self.rp + 'temp/' + file)
@@ -91,10 +91,11 @@ class BiliLive(object):
             'ffmpeg',
             '-y',
             '-f', 'rawvideo',
-            #'-vcodec', 'rawvideo',
+            # '-vcodec', 'rawvideo',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
             '-r', '30',
+            '-stream_loop', '99999',
             '-i', '-',
             '-i', self.rp + 'save/bgm.mp3',
             '-f', 'flv',
