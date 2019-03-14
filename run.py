@@ -5,8 +5,7 @@
 
 import BiliLive
 
-url = 'rtmp://127.0.0.1:1935/myapp/test'
-
 if __name__ == '__main__':
-    live = BiliLive.BiliLive('2019-12-21 00:00:00', url)
+    live = BiliLive.BiliLive()
+    live.config('./config/config.json')
     live.run()
