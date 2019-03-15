@@ -11,4 +11,4 @@ RUN conda install -y opencv pillow numpy
 
 CMD ['entrypoint.sh']
 
-ENTRYPOINT ['/bin/sh']
+ENTRYPOINT ['sh']
