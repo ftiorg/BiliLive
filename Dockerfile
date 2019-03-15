@@ -7,7 +7,7 @@ ADD docker/sources.list /etc/apt/sources.list
 ADD docker/pip.conf /root/.pip/pip.conf
 ADD . /app
 
-RUN conda install -y opencv pillow numpy
+RUN conda install -y opencv pillow numpy mutagen
 
 CMD ["entrypoint.sh"]
 

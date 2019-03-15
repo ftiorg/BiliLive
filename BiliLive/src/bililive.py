@@ -21,6 +21,7 @@ class BiliLive(object):
         self.rp = os.path.abspath('.') + '/BiliLive/'  # BiliLive目录
         self.st = int(time.time())  # 开始时间
         self.ef = False  # 错误标识符
+        self.cf = {}  # 配置项
         if not os.path.exists(self.rp + 'temp'):
             os.mkdir(self.rp + 'temp', 777)
             print("CREATE DIR -> TEMP")
@@ -33,10 +34,11 @@ class BiliLive(object):
         if os.path.exists(config):
             print("LOAD CONFIG FROM %s" % config)
             with open(config, 'r') as c:
-                setting = json.loads(c.read())
-                print(setting)
-                self.ru = setting['rtmp-url']
-                self.et = int(time.mktime(time.strptime(setting['end-time'], '%Y-%m-%d %H:%M:%S')))
+                for key, value in json.loads(c.read()).items():
+                    self.cf[key] = value
+                    print("SET %s AS %s" % (key, value))
+                self.ru = self.cf['rtmp-url']
+                self.et = int(time.mktime(time.strptime(self.cf['end-time'], '%Y-%m-%d %H:%M:%S')))
         else:
             print("FILE NOT FOUND %s" % config)
 
@@ -130,7 +132,10 @@ class BiliLive(object):
                         self.ef = True
                         print(e)
                         break
-
+                    except KeyboardInterrupt as e:
+                        self.ef = True
+                        print(e)
+                        break
             else:
                 print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
         print("PUSH THREAD EXIT")
