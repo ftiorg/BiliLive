@@ -1,4 +1,4 @@
 channels:
-  - https://mirrors.ustc.edu.cn/anaconda/pkgs/main/
-  - https://mirrors.ustc.edu.cn/anaconda/pkgs/free/
+  - http://mirrors.ustc.edu.cn/anaconda/pkgs/main/
+  - http://mirrors.ustc.edu.cn/anaconda/pkgs/free/
 show_channel_urls: true
