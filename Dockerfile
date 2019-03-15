@@ -1,5 +1,5 @@
 FROM continuumio/miniconda3:latest
-
+LABEL maintainer="kamino <kamino@imea.me>"
 WORKDIR /app
 
 ADD docker/condarc /root/.condarc
@@ -9,6 +9,6 @@ ADD . /app
 
 RUN conda install -y opencv pillow numpy
 
-CMD ['entrypoint.sh']
+CMD ["entrypoint.sh"]
 
-ENTRYPOINT ['sh']
+ENTRYPOINT ["sh"]
