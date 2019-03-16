@@ -1,4 +1,7 @@
 {
-  "rtmp-url": "rtmp://127.0.0.1:1935/myapp/test",
-  "end-time": "2019-12-21 00:00:00"
+  "rtmp-url": "rtmp://127.0.0.1:1935/rtmp/live",
+  "end-time": "2019-12-21 00:00:00",
+  "bgm-list": [
+    "https://static.isdut.cn/download/%E6%88%91%E6%98%AF%E7%8C%AB.mp3"
+  ]
 }

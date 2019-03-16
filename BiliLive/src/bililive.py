@@ -10,8 +10,6 @@ import threading
 import json
 from .image import ImageCtrl
 from .audio import AudioCtrl
-from .httpserver import HttpServer
-from .error import Error
 
 
 class BiliLive(object):
@@ -24,6 +22,7 @@ class BiliLive(object):
         self.ef = False  # 错误标识符
         self.cf = {}  # 配置项
         self.bn = ''  # 背景音乐
+        self.nl = open(os.devnull, 'w')  # 虚空
         if not os.path.exists(self.rp + 'temp'):
             os.mkdir(self.rp + 'temp', 777)
             print("CREATE DIR -> TEMP")
@@ -78,7 +77,7 @@ class BiliLive(object):
         print("MAKE THREAD START")
         sec = self.st + 2
         while not self.ef:
-            if len(os.listdir(self.rp + 'temp')) >= 100:
+            if len(os.listdir(self.rp + 'temp')) >= 200:
                 time.sleep(0.1)
                 continue
             print("MAKE IMAGE -> %s" % sec)
@@ -86,21 +85,19 @@ class BiliLive(object):
                 image.write(self.make_image(str(self.et - sec)))
             sec += 1
             time.sleep(0.1)
-        if self.ef:
-            print("MAKE THREAD EXIT")
+        print("MAKE THREAD EXIT")
 
     def _clean_thread(self):
         """清理缓存线程"""
         print("CLEAN THREAD START")
         while not self.ef:
-            if len(os.listdir(self.rp + 'temp')) >= 100:
+            if len(os.listdir(self.rp + 'temp')) >= 150:
                 for file in os.listdir(self.rp + 'temp'):
-                    if int(file.replace('.jpgx', '')) < int(time.time()):
+                    if int(file.replace('.jpgx', '')) < int(time.time()) - 10:
                         os.remove(self.rp + 'temp/' + file)
                         print("CLEAN IMAGE -> %s" % file.replace('.jpgx', ''))
             time.sleep(1)
-        if self.ef:
-            print("CLEAN THREAD EXIT")
+        print("CLEAN THREAD EXIT")
 
     def _push_thread(self):
         """推流线程"""
@@ -110,16 +107,14 @@ class BiliLive(object):
             'ffmpeg',
             '-y',
             '-f', 'rawvideo',
-            # '-vcodec', 'rawvideo',
+            '-vcodec', 'rawvideo',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
-            '-r', '30',
-            '-stream_loop', '99999',
+            '-re',
             '-i', '-',
-            '-i', self.rp + 'save/bgm.mp3',
+            '-i', 'rtmp://127.0.0.1:1935/rtmp/music',
             '-f', 'flv',
             '-b:v', '1k',
-            '-preset', 'fast',
             self.ru
         ]
         pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
@@ -151,13 +146,25 @@ class BiliLive(object):
     def _bgm_thread(self):
         """背景音乐线程"""
         print("MUSIC THREAD START")
-        hs = HttpServer()
-        hs.run()
+        while not self.ef:
+            for music in self.cf['bgm-list']:
+                try:
+                    command = [
+                        'ffmpeg',
+                        '-y',
+                        '-i', music,
+                        '-f', 'flv',
+                        'rtmp://127.0.0.1:1935/rtmp/music'
+                    ]
+                    up = subprocess.call(command, shell=False, stdout=self.nl)
+                except Exception as e:
+                    print(e)
+            time.sleep(1)
         print("MUSIC THREAD EXIT")
 
     def __del__(self):
         """退出时清理"""
-        # self._clean_temp()
+        self._clean_temp()
 
     def test(self):
         """
