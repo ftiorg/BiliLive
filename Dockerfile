@@ -8,7 +8,7 @@ ADD docker/pip.conf /root/.pip/pip.conf
 ADD docker/nginx.conf /usr/local/nginx/conf/nginx.conf
 ADD . /app
 
-RUN conda install -y opencv pillow numpy mutagen flask &&\
+RUN conda install -y opencv ffmpeg pillow numpy mutagen flask &&\
     apt update &&\
     apt install -y git build-essential libssl-dev &&\
     cd /usr/src &&\
