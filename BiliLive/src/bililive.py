@@ -10,6 +10,7 @@ import threading
 import json
 from .image import ImageCtrl
 from .audio import AudioCtrl
+from .httpserver import HttpServer
 from .error import Error
 
 
@@ -22,6 +23,7 @@ class BiliLive(object):
         self.st = int(time.time())  # 开始时间
         self.ef = False  # 错误标识符
         self.cf = {}  # 配置项
+        self.bn = ''  # 背景音乐
         if not os.path.exists(self.rp + 'temp'):
             os.mkdir(self.rp + 'temp', 777)
             print("CREATE DIR -> TEMP")
@@ -146,6 +148,13 @@ class BiliLive(object):
             os.remove(self.rp + 'temp/' + file)
             print("CLEAN IMAGE -> %s" % file.replace('.jpgx', ''))
 
+    def _bgm_thread(self):
+        """背景音乐线程"""
+        print("MUSIC THREAD START")
+        hs = HttpServer()
+        hs.run()
+        print("MUSIC THREAD EXIT")
+
     def __del__(self):
         """退出时清理"""
         # self._clean_temp()
@@ -161,4 +170,5 @@ class BiliLive(object):
         """运行"""
         threading.Thread(target=self._make_thread).start()
         threading.Thread(target=self._clean_thread).start()
+        threading.Thread(target=self._bgm_thread).start()
         threading.Thread(target=self._push_thread).start()
