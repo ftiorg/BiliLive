@@ -162,10 +162,10 @@ class BiliLive(object):
                     if os.path.exists(music):
                         length = AudioCtrl.audio_info(music).length
                         print("WAIT $s" % length - (p_stop - p_start))
-                        time.sleep(length - (p_stop - p_start))
+                        #time.sleep(length - (p_stop - p_start))
                 except Exception as e:
                     print(e)
-            time.sleep(1)
+            #time.sleep(1)
         print("MUSIC THREAD EXIT")
 
     def __del__(self):
