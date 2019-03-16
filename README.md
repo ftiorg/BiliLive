@@ -20,11 +20,12 @@ docker run -v $(pwd)/config:/app/config bililive:0.2
 本程序中使用的字体有：
 - 命运石之门辉光灯字体  
 - 濑户字体  
+- 思源字体  
 
 如果侵犯了您的版权，请联系开发者，十分感谢
 
 ### TODO
-加个学英语功能
+背景音乐问题
 
 ## License
 MIT

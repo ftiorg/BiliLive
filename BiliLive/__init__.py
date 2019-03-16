@@ -6,5 +6,6 @@
 from BiliLive.src.bililive import BiliLive
 from BiliLive.src.audio import AudioCtrl
 from BiliLive.src.image import ImageCtrl
+from BiliLive.src.study import StudyExt
 from BiliLive.src.rtmp import Rtmp
 from BiliLive.src.error import Error

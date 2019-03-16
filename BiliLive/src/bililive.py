@@ -10,9 +10,12 @@ import threading
 import json
 from .image import ImageCtrl
 from .audio import AudioCtrl
+from .study import StudyExt
 
 
 class BiliLive(object):
+    CONF = {}
+
     def __init__(self, endtime=None, rtmpurl=None):
         """初始化"""
         self.ru = rtmpurl  # 推流地址
@@ -23,6 +26,7 @@ class BiliLive(object):
         self.cf = {}  # 配置项
         self.bn = ''  # 背景音乐
         self.nl = open(os.devnull, 'w')  # 虚空
+        self.wd = StudyExt.GetWord()[0]  # 加个单词
         if not os.path.exists(self.rp + 'temp'):
             os.mkdir(self.rp + 'temp', 777)
             print("CREATE DIR -> TEMP")
@@ -40,8 +44,10 @@ class BiliLive(object):
                     print("SET %s AS %s" % (key, value))
                 self.ru = self.cf['rtmp-url']
                 self.et = int(time.mktime(time.strptime(self.cf['end-time'], '%Y-%m-%d %H:%M:%S')))
+                BiliLive.CONF = self.cf
         else:
             print("FILE NOT FOUND %s" % config)
+            self.ef = True
 
     def make_image(self, text=None, save=None):
         """生成帧"""
@@ -65,6 +71,10 @@ class BiliLive(object):
         image = ImageCtrl.image_write(image, '大概%d天' % (int(text) / 86400), (500, 500), 60,
                                       (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
+        image = ImageCtrl.image_write(image, self.wd[1], (20, 550), 40, (255, 117, 0, 0),
+                                      self.rp + 'font/SourceHanSansCN-Medium.otf')
+        image = ImageCtrl.image_write(image, self.wd[2], (20, 600), 30, (255, 117, 0, 0),
+                                      self.rp + 'font/SourceHanSansCN-Medium.otf')
         image = ImageCtrl.image_write(image, 'SERVER TIME: %s' % ct, (500, 650), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, (255, 117, 0, 0),
@@ -79,14 +89,19 @@ class BiliLive(object):
         """生成图片线程"""
         print("MAKE THREAD START")
         sec = self.st + 2
+        count = 0
         while not self.ef:
             if len(os.listdir(self.rp + 'temp')) >= 300:
                 time.sleep(0.1)
                 continue
+            if count == 4:
+                self.wd = StudyExt.GetWord()[0]
+                count = 0
             print("MAKE IMAGE -> %s" % sec)
             with open('{rp}temp/{sec}.jpgx'.format(rp=self.rp, sec=sec), 'wb') as image:
                 image.write(self.make_image(str(self.et - sec)))
             sec += 1
+            count += 1
             # time.sleep(0.1)
         print("MAKE THREAD EXIT")
 
