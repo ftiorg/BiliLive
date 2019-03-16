@@ -77,21 +77,21 @@ class BiliLive(object):
         print("MAKE THREAD START")
         sec = self.st + 2
         while not self.ef:
-            if len(os.listdir(self.rp + 'temp')) >= 200:
+            if len(os.listdir(self.rp + 'temp')) >= 300:
                 time.sleep(0.1)
                 continue
             print("MAKE IMAGE -> %s" % sec)
             with open('{rp}temp/{sec}.jpgx'.format(rp=self.rp, sec=sec), 'wb') as image:
                 image.write(self.make_image(str(self.et - sec)))
             sec += 1
-            time.sleep(0.1)
+            # time.sleep(0.1)
         print("MAKE THREAD EXIT")
 
     def _clean_thread(self):
         """清理缓存线程"""
         print("CLEAN THREAD START")
         while not self.ef:
-            if len(os.listdir(self.rp + 'temp')) >= 150:
+            if len(os.listdir(self.rp + 'temp')) >= 250:
                 for file in os.listdir(self.rp + 'temp'):
                     if int(file.replace('.jpgx', '')) < int(time.time()) - 10:
                         os.remove(self.rp + 'temp/' + file)
@@ -117,7 +117,8 @@ class BiliLive(object):
             '-b:v', '1k',
             self.ru
         ]
-        pipe = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=self.nl)
+        with open(os.devnull, 'w') as nul:
+            pipe = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=nul)
 
         while True:
             ct = int(time.time())
@@ -157,15 +158,16 @@ class BiliLive(object):
                         '-f', 'flv',
                         'rtmp://127.0.0.1:1935/rtmp/music'
                     ]
-                    subprocess.call(command, shell=False, stdout=self.nl)
+                    with open(os.devnull, 'w') as nul:
+                        subprocess.call(command, shell=False, stdout=nul)
                     p_stop = int(time.time())
                     if os.path.exists(music):
                         length = AudioCtrl.audio_info(music).length
-                        print("WAIT $s" % length - (p_stop - p_start))
-                        #time.sleep(length - (p_stop - p_start))
+                        print("WAIT %s" % length - (p_stop - p_start))
+                        # time.sleep(length - (p_stop - p_start))
                 except Exception as e:
                     print(e)
-            #time.sleep(1)
+            # time.sleep(1)
         print("MUSIC THREAD EXIT")
 
     def __del__(self):

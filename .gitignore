@@ -8,4 +8,5 @@ __pycache__
 /test.py
 /BiliLive/save/*
 /BiliLive/temp/*
+/BiliLive/log/*
 /config/config.json
