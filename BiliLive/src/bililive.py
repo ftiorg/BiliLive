@@ -161,7 +161,8 @@ class BiliLive(object):
                     p_stop = int(time.time())
                     if os.path.exists(music):
                         length = AudioCtrl.audio_info(music).length
-                        # time.sleep(length - (p_stop - p_start))
+                        print("WAIT $s" % length - (p_stop - p_start))
+                        time.sleep(length - (p_stop - p_start))
                 except Exception as e:
                     print(e)
             time.sleep(1)
