@@ -117,7 +117,7 @@ class BiliLive(object):
             '-b:v', '1k',
             self.ru
         ]
-        pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
+        pipe = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=self.nl)
 
         while True:
             ct = int(time.time())
@@ -149,6 +149,7 @@ class BiliLive(object):
         while not self.ef:
             for music in self.cf['bgm-list']:
                 try:
+                    p_start = int(time.time())
                     command = [
                         'ffmpeg',
                         '-y',
@@ -156,7 +157,11 @@ class BiliLive(object):
                         '-f', 'flv',
                         'rtmp://127.0.0.1:1935/rtmp/music'
                     ]
-                    up = subprocess.call(command, shell=False, stdout=self.nl)
+                    subprocess.call(command, shell=False, stdout=self.nl)
+                    p_stop = int(time.time())
+                    if os.path.exists(music):
+                        length = AudioCtrl.audio_info(music).length
+                        time.sleep(length - (p_stop - p_start))
                 except Exception as e:
                     print(e)
             time.sleep(1)
