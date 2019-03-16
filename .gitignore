@@ -2,9 +2,9 @@
 *.mp4
 *.jpg
 *.jpgx
-/config/config.json
 /.idea
 /tmp
 /test.py
 /BiliLive/save/*
 /BiliLive/temp/*
+/config/config.json
