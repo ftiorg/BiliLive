@@ -52,21 +52,24 @@ class BiliLive(object):
         size = 200
         ct = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
         image = ImageCtrl.image_create(1280, 720)
+        image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, (255, 117, 0, 0),
+                                      self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, text_flame(text), location, size, (110, 0, 0, 50),
                                       self.rp + 'font/BONX-Silhouette.otf')
         image = ImageCtrl.image_write(image, text, location, size, (255, 117, 0, 0),
                                       self.rp + 'font/BONX-Medium.otf')
         image = ImageCtrl.image_write(image, text_flame(text), location, size, (0, 0, 0, 0),
                                       self.rp + 'font/BONX-Frame.otf')
-        image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '秒', (1100, 300), 60, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, '秒', (1000, 530), 60, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '大概%d天' % (int(text) / 86400), (500, 500), 60,
+                                      (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'SERVER TIME: %s' % ct, (500, 650), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, 'BGM: stars in the rain - Aimer', (20, 680), 20, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, 'BGM: 放不出来呢', (20, 680), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
         if save != None:
             ImageCtrl.image_save(image, save)
