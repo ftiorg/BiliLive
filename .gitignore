@@ -2,6 +2,7 @@
 *.mp4
 *.jpg
 *.jpgx
+__pycache__
 /.idea
 /tmp
 /test.py

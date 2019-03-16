@@ -24,10 +24,7 @@ docker run -v $(pwd)/config:/app/config bililive:0.2
 如果侵犯了您的版权，请联系开发者，十分感谢
 
 ### TODO
-背景音乐解决方案
-1. ffmpeg -i xxx.mp3 切歌替换文件(应该失败)
-2. nginx搭个rtmp服务器，音乐推上去再用ffmpeg拉回来(服务器就搭不好)
-3. 简单的http服务器  
+加个学英语功能
 
 ## License
 MIT
