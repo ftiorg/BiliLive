@@ -5,6 +5,6 @@
 /.idea
 /tmp
 /test.py
-/BiliLive/save/
-/BiliLive/temp/
+/BiliLive/save/*
+/BiliLive/temp/*
 /config/config.json
