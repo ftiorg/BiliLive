@@ -36,4 +36,4 @@ class DbLink(object):
             return data
         except Exception as e:
             print(e)
-            return None
+            return (None, 'ERROR', str(e))

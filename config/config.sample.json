@@ -3,5 +3,11 @@
   "end-time": "2019-12-21 00:00:00",
   "bgm-list": [
     "https://static.isdut.cn/download/%E6%88%91%E6%98%AF%E7%8C%AB.mp3"
-  ]
+  ],
+  "database": {
+    "host": "localhost",
+    "user": "user",
+    "password": "password",
+    "dbname": "study"
+  }
 }

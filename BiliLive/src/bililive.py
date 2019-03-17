@@ -68,7 +68,7 @@ class BiliLive(object):
                                       self.rp + 'font/BONX-Frame.otf')
         image = ImageCtrl.image_write(image, '秒', (1100, 300), 60, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, '大概%d天' % (int(text) / 86400), (500, 500), 60,
+        image = ImageCtrl.image_write(image, '%d天' % (int(text) / 86400), (530, 500), 60,
                                       (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, self.wd[1], (20, 550), 40, (255, 117, 0, 0),
