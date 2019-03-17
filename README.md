@@ -13,9 +13,9 @@ git clone https://github.com/isdut/BiliLive.git
 cd BiliLive
 docker build -t bililive:0.2 .
 cp config/config.sample.json config/config.json
-docker run -v $(pwd)/config:/app/config bililive:0.2  
+docker run --name live -d -v $(pwd)/config:/app/config bililive:0.2  
 #方便开发可直接
-#docker run -v $(pwd):/app bililive:0.2  
+#docker run --name live -d -v $(pwd):/app bililive:0.2  
 ```
 修改画面可修改**BiliLive**类的**make_image**函数
 
