@@ -140,7 +140,7 @@ class BiliLive(object):
             '-s', '1280x720',
             '-re',
             '-i', '-',
-            '-i', 'rtmp://127.0.0.1:1935/rtmp/music',
+            # '-i', 'rtmp://127.0.0.1:1935/rtmp/music',
             '-f', 'flv',
             '-b:v', '1k',
             self.ru
