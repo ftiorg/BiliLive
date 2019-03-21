@@ -27,6 +27,7 @@ class BiliLive(object):
         self.bn = ''  # 背景音乐
         self.nl = open(os.devnull, 'w')  # 虚空
         self.wd = StudyExt.GetWord()[0]  # 加个单词
+        self.yy = StudyExt.GetYiyan()  # 一言API
         if not os.path.exists(self.rp + 'temp'):
             os.mkdir(self.rp + 'temp', 777)
             print("CREATE DIR -> TEMP")
@@ -49,7 +50,7 @@ class BiliLive(object):
             print("FILE NOT FOUND %s" % config)
             self.ef = True
 
-    def make_image(self, text=None, save=None):
+    def make_image(self, text=None, save=None, show=False):
         """生成帧"""
         if text == None:
             text = str(self.et - int(time.time()))
@@ -75,6 +76,8 @@ class BiliLive(object):
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
         image = ImageCtrl.image_write(image, self.wd[2], (20, 600), 30, (255, 117, 0, 0),
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
+        image = ImageCtrl.image_write(image, self.yy[0] + ' —— ' + self.yy[1], (5, 5), 20, (255, 117, 0, 0),
+                                      self.rp + 'font/SourceHanSansCN-Medium.otf')
         image = ImageCtrl.image_write(image, 'SERVER TIME: %s' % ct, (500, 650), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, (255, 117, 0, 0),
@@ -83,26 +86,33 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         if save != None:
             ImageCtrl.image_save(image, save)
+        if show == True:
+            ImageCtrl.image_show(image)
         return ImageCtrl.image_tostring(image)
 
     def _make_thread(self):
         """生成图片线程"""
         print("MAKE THREAD START")
         sec = self.st + 2
-        count = 0
+        count_wd = 0
+        count_yy = 0
         while not self.ef:
             if len(os.listdir(self.rp + 'temp')) >= 300:
                 time.sleep(0.1)
                 continue
-            if count == 4:
+            if count_wd == 5:
                 self.wd = StudyExt.GetWord()[0]
-                count = 0
+                count_wd = 0
+            if count_yy == 12:
+                self.yy = StudyExt.GetYiyan()
+                count_yy = 0
+
             print("MAKE IMAGE -> %s" % sec)
             with open('{rp}temp/{sec}.jpgx'.format(rp=self.rp, sec=sec), 'wb') as image:
                 image.write(self.make_image(str(self.et - sec)))
             sec += 1
-            count += 1
-            # time.sleep(0.1)
+            count_wd += 1
+            count_yy += 1
         print("MAKE THREAD EXIT")
 
     def _clean_thread(self):
@@ -185,7 +195,6 @@ class BiliLive(object):
                         # time.sleep(length - (p_stop - p_start))
                 except Exception as e:
                     print(e)
-            # time.sleep(1)
         print("MUSIC THREAD EXIT")
 
     def __del__(self):
@@ -203,5 +212,5 @@ class BiliLive(object):
         """运行"""
         threading.Thread(target=self._make_thread).start()
         threading.Thread(target=self._clean_thread).start()
-        threading.Thread(target=self._bgm_thread).start()
+        # threading.Thread(target=self._bgm_thread).start() #TODO 鸽了
         threading.Thread(target=self._push_thread).start()
