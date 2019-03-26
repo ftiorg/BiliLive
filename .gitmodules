@@ -1,0 +1,4 @@
+[submodule "BiliLive/src/blivedm"]
+	path = BiliLive/src/blivedm
+	url = https://github.com/xfgryujk/blivedm.git
+	branch = master
