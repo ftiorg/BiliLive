@@ -201,4 +201,4 @@ class BiliLive(object):
         threading.Thread(target=self._clean_thread).start()
         Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
         threading.Thread(target=self._push_thread).start()
-        self._danmu_thread()
+        Config.config('robot') and self._danmu_thread()

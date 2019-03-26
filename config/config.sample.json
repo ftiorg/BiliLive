@@ -16,5 +16,6 @@
     "cookie": "",
     "csrf": "",
     "username": ""
-  }
+  },
+  "robot": true
 }
