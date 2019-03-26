@@ -7,5 +7,4 @@ import BiliLive
 
 if __name__ == '__main__':
     live = BiliLive.BiliLive()
-    live.config('./config/config.json')
     live.run()

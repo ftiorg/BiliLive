@@ -1,13 +1,20 @@
 {
   "rtmp-url": "rtmp://127.0.0.1:1935/rtmp/live",
   "end-time": "2019-12-21 00:00:00",
+  "room-id": 1598896,
+  "bgm": false,
   "bgm-list": [
     "https://static.isdut.cn/download/%E6%88%91%E6%98%AF%E7%8C%AB.mp3"
   ],
   "database": {
-    "host": "localhost",
-    "user": "user",
-    "password": "password",
-    "dbname": "study"
+    "host": "",
+    "user": "",
+    "password": "",
+    "dbname": ""
+  },
+  "auth": {
+    "cookie": "",
+    "csrf": "",
+    "username": ""
   }
 }

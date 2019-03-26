@@ -7,23 +7,26 @@ import os
 import time
 import subprocess
 import threading
-import json
+import asyncio
 from .image import ImageCtrl
 from .audio import AudioCtrl
 from .study import StudyExt
+from .danmu import DanmuHandle
+from .config import Config
+from .timer import Timer
 
 
 class BiliLive(object):
     CONF = {}
 
-    def __init__(self, endtime=None, rtmpurl=None):
+    def __init__(self):
         """初始化"""
-        self.ru = rtmpurl  # 推流地址
-        self.et = endtime and int(time.mktime(time.strptime(endtime, '%Y-%m-%d %H:%M:%S')))  # 结束时间
-        self.rp = os.path.abspath('.') + '/BiliLive/'  # BiliLive目录
+        self.ru = Config.config('rtmp-url')  # 推流地址
+        self.et = Timer.str2stamp(Config.config('end-time'))  # 结束时间
+        self.rp = Config.config('root-path') + 'BiliLive/'  # BiliLive目录
         self.st = int(time.time())  # 开始时间
         self.ef = False  # 错误标识符
-        self.cf = {}  # 配置项
+        self.cf = Config.config()  # 配置项
         self.bn = ''  # 背景音乐
         self.nl = open(os.devnull, 'w')  # 虚空
         self.wd = StudyExt.GetWord()[0]  # 加个单词
@@ -34,21 +37,6 @@ class BiliLive(object):
         if not os.path.exists(self.rp + 'save'):
             os.mkdir(self.rp + 'save', 777)
             print("CREATE DIR -> SAVE")
-
-    def config(self, config=None):
-        """设置配置文件"""
-        if os.path.exists(config):
-            print("LOAD CONFIG FROM %s" % config)
-            with open(config, 'r') as c:
-                for key, value in json.loads(c.read()).items():
-                    self.cf[key] = value
-                    print("SET %s AS %s" % (key, value))
-                self.ru = self.cf['rtmp-url']
-                self.et = int(time.mktime(time.strptime(self.cf['end-time'], '%Y-%m-%d %H:%M:%S')))
-                BiliLive.CONF = self.cf
-        else:
-            print("FILE NOT FOUND %s" % config)
-            self.ef = True
 
     def make_image(self, text=None, save=None, show=False):
         """生成帧"""
@@ -140,7 +128,6 @@ class BiliLive(object):
             '-s', '1280x720',
             '-re',
             '-i', '-',
-            # '-i', 'rtmp://127.0.0.1:1935/rtmp/music',
             '-f', 'flv',
             '-b:v', '1k',
             self.ru
@@ -165,6 +152,13 @@ class BiliLive(object):
             else:
                 print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
         print("PUSH THREAD EXIT")
+
+    def _danmu_thread(self):
+        """弹幕处理线程"""
+        print("DANMU THREAD START")
+        loop = asyncio.get_event_loop()
+        loop.call_soon_threadsafe(DanmuHandle.run(loop))
+        print("DANMU THREAD EXIT")
 
     def _clean_temp(self):
         """删除所有缓存"""
@@ -201,16 +195,10 @@ class BiliLive(object):
         """退出时清理"""
         self._clean_temp()
 
-    def test(self):
-        """
-        image = self.make_image(str(self.et - int(time.time())))
-        ImageCtrl.image_show(ImageCtrl.image_fromstring(image))
-        """
-        print(AudioCtrl.audio_info(self.rp + 'save/bgm.mp3').length)
-
     def run(self):
         """运行"""
         threading.Thread(target=self._make_thread).start()
         threading.Thread(target=self._clean_thread).start()
-        # threading.Thread(target=self._bgm_thread).start() #TODO 鸽了
+        Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
         threading.Thread(target=self._push_thread).start()
+        self._danmu_thread()
