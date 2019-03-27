@@ -17,19 +17,18 @@ from .timer import Timer
 
 
 class BiliLive(object):
-    CONF = {}
 
     def __init__(self):
         """初始化"""
         self.ru = Config.config('rtmp-url')  # 推流地址
         self.et = Timer.str2stamp(Config.config('end-time'))  # 结束时间
         self.rp = Config.config('root-path') + 'BiliLive/'  # BiliLive目录
-        self.st = int(time.time())  # 开始时间
+        self.st = Timer.timestamp()  # 开始时间
         self.ef = False  # 错误标识符
         self.cf = Config.config()  # 配置项
         self.bn = ''  # 背景音乐
         self.nl = open(os.devnull, 'w')  # 虚空
-        self.wd = StudyExt.GetWord()[0]  # 加个单词
+        self.wd = StudyExt.GetWord()  # 加个单词
         self.yy = StudyExt.GetYiyan()  # 一言API
         if not os.path.exists(self.rp + 'temp'):
             os.mkdir(self.rp + 'temp', 777)
@@ -41,11 +40,12 @@ class BiliLive(object):
     def make_image(self, text=None, save=None, show=False):
         """生成帧"""
         if text == None:
-            text = str(self.et - int(time.time()))
+            text = str(self.et - Timer.timestamp())
         text_flame = lambda x: ''.zfill(len(x))
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
-        ct = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time()))
+        ct = Timer.stamp2str(time.time())
+        sign_txt = lambda : f'签到'
         image = ImageCtrl.image_create(1280, 720)
         image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
@@ -72,7 +72,7 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'BGM: 放不出来呢', (20, 680), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, '早起打卡\nNo1 _kamino_ 05:40', (800, 100), 25, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '早起打卡\n'+StudyExt.SignRank(), (800, 100), 25, (255, 117, 0, 0),
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
         if save != None:
             ImageCtrl.image_save(image, save)
@@ -91,7 +91,7 @@ class BiliLive(object):
                 time.sleep(0.1)
                 continue
             if count_wd == 5:
-                self.wd = StudyExt.GetWord()[0]
+                self.wd = StudyExt.GetWord()
                 count_wd = 0
             if count_yy == 12:
                 self.yy = StudyExt.GetYiyan()
@@ -111,7 +111,7 @@ class BiliLive(object):
         while not self.ef:
             if len(os.listdir(self.rp + 'temp')) >= 250:
                 for file in os.listdir(self.rp + 'temp'):
-                    if int(file.replace('.jpgx', '')) < int(time.time()) - 20:
+                    if int(file.replace('.jpgx', '')) < Timer.timestamp() - 20:
                         os.remove(self.rp + 'temp/' + file)
                         print("CLEAN IMAGE -> %s" % file.replace('.jpgx', ''))
             time.sleep(1)
@@ -134,11 +134,9 @@ class BiliLive(object):
             '-b:v', '1k',
             self.ru
         ]
-        with open(os.devnull, 'w') as nul:
-            pipe = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=nul)
-
+        pipe = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=self.nl)
         while True:
-            ct = int(time.time())
+            ct = Timer.timestamp()
             if os.path.exists(self.rp + 'temp/%s.jpgx' % ct):
                 with open(self.rp + 'temp/%s.jpgx' % ct, 'rb') as image:
                     try:
@@ -174,7 +172,7 @@ class BiliLive(object):
         while not self.ef:
             for music in self.cf['bgm-list']:
                 try:
-                    p_start = int(time.time())
+                    p_start = Timer.timestamp()
                     command = [
                         'ffmpeg',
                         '-y',
@@ -182,9 +180,8 @@ class BiliLive(object):
                         '-f', 'flv',
                         'rtmp://127.0.0.1:1935/rtmp/music'
                     ]
-                    with open(os.devnull, 'w') as nul:
-                        subprocess.call(command, shell=False, stdout=nul)
-                    p_stop = int(time.time())
+                    subprocess.call(command, shell=False, stdout=self.nl)
+                    p_stop = Timer.timestamp()
                     if os.path.exists(music):
                         length = AudioCtrl.audio_info(music).length
                         print("WAIT %s" % length - (p_stop - p_start))

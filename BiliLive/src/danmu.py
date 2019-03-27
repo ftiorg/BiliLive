@@ -42,7 +42,6 @@ class DanmuHandle(object):
     @staticmethod
     def run(loop):
         try:
-            # loop = asyncio.get_event_loop()
             loop.run_until_complete(DanmuHandle.async_main())
             return True
         except Exception as e:

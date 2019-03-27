@@ -14,3 +14,4 @@ from BiliLive.src.config import Config
 
 """读取配置文件"""
 Config.load_config()
+"""全局变量"""

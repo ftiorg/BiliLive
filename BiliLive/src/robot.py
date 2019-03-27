@@ -6,6 +6,7 @@
 import time
 import queue
 from .config import Config
+from .study import StudyExt
 
 
 class Robot(object):
@@ -15,7 +16,11 @@ class Robot(object):
         """处理文本消息"""
         if user_name == Config.config('auth')['username']:
             return None
-        return f'用户名:{user_name} 消息:{content}'
+        if content == "打卡":
+            rank = StudyExt.SignAdd(user_name)
+            return f'{user_name}打卡成功,今日排名{rank}'
+
+        return f'复读 {content}'
 
     @staticmethod
     def gift_msg(user_name, gift_name, gift_num):

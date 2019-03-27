@@ -10,6 +10,8 @@ url = 'rtmp://127.0.0.1:1935/myapp/test'
 if __name__ == '__main__':
     live = BiliLive.BiliLive()
     live.make_image(show=True)
-    # live.test()
+# live.test()
 
-    #BiliLive.DanmuHandle.send('你好啊')
+# BiliLive.DanmuHandle.send('你好啊')
+# print(BiliLive.StudyExt.SignedList())
+# print(BiliLive.StudyExt.SignRank())

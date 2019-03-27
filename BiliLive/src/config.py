@@ -19,7 +19,7 @@ class Config(object):
         with open(Config.CONFIG['root-path'] + 'config/config.json', 'r', encoding='UTF-8') as f:
             for key, value in json.loads(f.read()).items():
                 Config.CONFIG[key] = value
-                print("SET %s AS %s" % (key, value))
+                print(f'SET {key} AS {value}')
         return Config.CONFIG
 
     @staticmethod
@@ -32,3 +32,13 @@ class Config(object):
             return value
         except KeyError:
             return None
+
+    @staticmethod
+    def set(key=None, value=None):
+        """设置配置项"""
+        if (key and value):
+            Config.CONFIG[key] = value
+            print(f'SET {key} AS {value}')
+            return True
+        else:
+            return False
