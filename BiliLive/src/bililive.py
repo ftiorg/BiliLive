@@ -72,6 +72,8 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'BGM: 放不出来呢', (20, 680), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
+        image = ImageCtrl.image_write(image, '早起打卡\nNo1 _kamino_ 05:40', (800, 100), 25, (255, 117, 0, 0),
+                                      self.rp + 'font/SourceHanSansCN-Medium.otf')
         if save != None:
             ImageCtrl.image_save(image, save)
         if show == True:
@@ -109,7 +111,7 @@ class BiliLive(object):
         while not self.ef:
             if len(os.listdir(self.rp + 'temp')) >= 250:
                 for file in os.listdir(self.rp + 'temp'):
-                    if int(file.replace('.jpgx', '')) < int(time.time()) - 10:
+                    if int(file.replace('.jpgx', '')) < int(time.time()) - 20:
                         os.remove(self.rp + 'temp/' + file)
                         print("CLEAN IMAGE -> %s" % file.replace('.jpgx', ''))
             time.sleep(1)
@@ -201,4 +203,5 @@ class BiliLive(object):
         threading.Thread(target=self._clean_thread).start()
         Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
         threading.Thread(target=self._push_thread).start()
-        Config.config('robot') and self._danmu_thread()
+        if Config.config('robot'):
+            self._danmu_thread()
