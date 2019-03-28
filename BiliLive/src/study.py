@@ -76,7 +76,7 @@ class StudyExt(object):
         msg = []
         rank = StudyExt.E['sign']
         if len(rank) == 0:
-            return ['暂无']
+            return ['暂无(可能会有5分钟延迟)']
         elif len(rank) < 3:
             max = len(rank)
         else:
