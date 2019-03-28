@@ -33,7 +33,7 @@ class StudyExt(object):
 
     @staticmethod
     def SignedList():
-        """每日签到"""
+        """已签到列表"""
         dl = DbLink()
         data = dl.query(
             "SELECT * FROM `sign` WHERE `date` = '%s' ORDER BY 'time' ASC;" % Timer.stamp2str(Timer.timestamp(),
@@ -44,32 +44,43 @@ class StudyExt(object):
     def SignAdd(name=None):
         """添加签到"""
         if name == None:
-            return False
+            return None
         if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
-            return False
-        StudyExt.E['sign'].append((name, Timer.stamp2str(Timer.timestamp(), '%H:%M:%S')))
+            return None
         dl = DbLink()
+        r = dl.query("SELECT * FROM `sign` WHERE `name` = '%s';" % name)
+        if len(r) > 0:
+            rk = dl.query(
+                "SELECT COUNT(*) FROM `sign` WHERE `date` = '%s' ORDER BY 'time' ASC;" % Timer.stamp2str(
+                    Timer.timestamp(),
+                    '%Y-%m-%d'))[0][0]
+            return f'{name[0:2]}*已于{str(r[0][4])[0:5]}打卡成功,排名{rk}'
+        StudyExt.E['sign'].append((name, Timer.stamp2str(Timer.timestamp(), '%H:%M:%S')))
         dl.insert("INSERT INTO `sign`(`uid`, `name`, `date`, `time`) VALUES ('%s', '%s', '%s', '%s');" % (
             name, name, Timer.stamp2str(Timer.timestamp(),
                                         '%Y-%m-%d'), Timer.stamp2str(Timer.timestamp(),
                                                                      '%H:%M:%S')))
-        return dl.query(
+        rk = dl.query(
             "SELECT COUNT(*) FROM `sign` WHERE `date` = '%s' ORDER BY 'time' ASC;" % Timer.stamp2str(Timer.timestamp(),
                                                                                                      '%Y-%m-%d'))[0][0]
+        return f'{name[0:2]}*打卡成功,今日排名{rk}'
 
     @staticmethod
     def SignRank():
         """签到排名"""
-        if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= -1:
+        if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
             return '请在4点之后打卡,要注意休息哦'
-        msg = ''
+        if len(StudyExt.E['sign']) == 0:
+            for sn in StudyExt.SignedList():
+                StudyExt.E['sign'].append((sn[2], sn[4]))
+        msg = []
         rank = StudyExt.E['sign']
         if len(rank) == 0:
-            return '暂无'
-        elif len(rank) < 1:
+            return ['暂无']
+        elif len(rank) < 3:
             max = len(rank)
         else:
-            max = 1
+            max = 3
         for i in range(max):
-            msg += f'No{i + 1} {rank[i][0]} {rank[i][1]}'
+            msg.append(f'No{i + 1} {rank[i][0]} {rank[i][1]}')
         return msg

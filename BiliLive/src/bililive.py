@@ -45,7 +45,7 @@ class BiliLive(object):
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
         ct = Timer.stamp2str(time.time())
-        sign_txt = lambda : f'签到'
+        sign_txt = lambda: f'签到'
         image = ImageCtrl.image_create(1280, 720)
         image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
@@ -72,8 +72,12 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'BGM: 放不出来呢', (20, 680), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, '早起打卡\n'+StudyExt.SignRank(), (800, 100), 25, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '早起打卡', (800, 100), 25, (255, 117, 0, 0),
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
+        for key, rk in enumerate(StudyExt.SignRank()):
+            image = ImageCtrl.image_write(image, rk, (800, key * 22 + 125), 20, (255, 117, 0, 0),
+                                          self.rp + 'font/SourceHanSansCN-Medium.otf')
+
         if save != None:
             ImageCtrl.image_save(image, save)
         if show == True:
