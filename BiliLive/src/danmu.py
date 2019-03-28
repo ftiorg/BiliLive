@@ -32,7 +32,7 @@ class MyBLiveClient(BLiveClient):
 class DanmuHandle(object):
     @staticmethod
     async def async_main():
-        client = MyBLiveClient(Config.config('room-id'), False)
+        client = MyBLiveClient(Config.config('room-id'), True)
         future = client.run()
         try:
             await future
