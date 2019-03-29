@@ -47,7 +47,10 @@ class StudyExt(object):
             return None
         if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
             return None
-        dl = DbLink()
+        for k, s in enumerate(StudyExt.E['sign']):
+            if name in s:
+                return f'{s[0][0:2]}*已于{str(s[1])[0:5]}打卡成功,排名{k + 1}'
+        """
         r = dl.query("SELECT * FROM `sign` WHERE `name` = '%s';" % name)
         if len(r) > 0:
             rk = dl.query(
@@ -55,6 +58,8 @@ class StudyExt(object):
                     Timer.timestamp(),
                     '%Y-%m-%d'))[0][0]
             return f'{name[0:2]}*已于{str(r[0][4])[0:5]}打卡成功,排名{rk}'
+        """
+        dl = DbLink()
         StudyExt.E['sign'].append((name, Timer.stamp2str(Timer.timestamp(), '%H:%M:%S')))
         dl.insert("INSERT INTO `sign`(`uid`, `name`, `date`, `time`) VALUES ('%s', '%s', '%s', '%s');" % (
             name, name, Timer.stamp2str(Timer.timestamp(),

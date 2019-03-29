@@ -163,6 +163,12 @@ class BiliLive(object):
         loop = asyncio.get_event_loop()
         loop.call_soon_threadsafe(DanmuHandle.run(loop))
         print("DANMU THREAD EXIT")
+        if not self.ef:
+            print("DANMU THREAD RESTART")
+            try:
+                self._danmu_thread()
+            except Exception as e:
+                print("DANMU THREAD RESTART FAIL %s" % e)
 
     def _clean_temp(self):
         """删除所有缓存"""
