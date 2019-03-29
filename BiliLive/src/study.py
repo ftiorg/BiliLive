@@ -69,7 +69,8 @@ class StudyExt(object):
     def SignRank():
         """签到排名"""
         if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
-            return '请在4点之后打卡,要注意休息哦'
+            StudyExt.E['sign'].clear()
+            return ['请在4点之后打卡,要注意休息哦']
         if len(StudyExt.E['sign']) == 0:
             for sn in StudyExt.SignedList():
                 StudyExt.E['sign'].append((sn[2], sn[4]))
