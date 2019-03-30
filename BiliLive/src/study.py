@@ -50,15 +50,6 @@ class StudyExt(object):
         for k, s in enumerate(StudyExt.E['sign']):
             if name in s:
                 return f'{s[0][0:2]}*已于{str(s[1])[0:5]}打卡成功,排名{k + 1}'
-        """
-        r = dl.query("SELECT * FROM `sign` WHERE `name` = '%s';" % name)
-        if len(r) > 0:
-            rk = dl.query(
-                "SELECT COUNT(*) FROM `sign` WHERE `date` = '%s' ORDER BY 'time' ASC;" % Timer.stamp2str(
-                    Timer.timestamp(),
-                    '%Y-%m-%d'))[0][0]
-            return f'{name[0:2]}*已于{str(r[0][4])[0:5]}打卡成功,排名{rk}'
-        """
         dl = DbLink()
         StudyExt.E['sign'].append((name, Timer.stamp2str(Timer.timestamp(), '%H:%M:%S')))
         dl.insert("INSERT INTO `sign`(`uid`, `name`, `date`, `time`) VALUES ('%s', '%s', '%s', '%s');" % (
@@ -83,10 +74,10 @@ class StudyExt(object):
         rank = StudyExt.E['sign']
         if len(rank) == 0:
             return ['暂无(可能会有5分钟延迟)']
-        elif len(rank) < 3:
+        elif len(rank) < 5:
             max = len(rank)
         else:
-            max = 3
+            max = 5
         for i in range(max):
             msg.append(f'No{i + 1} {rank[i][0]} {rank[i][1]}')
         return msg

@@ -91,7 +91,7 @@ class BiliLive(object):
         count_wd = 0
         count_yy = 0
         while not self.ef:
-            if len(os.listdir(self.rp + 'temp')) >= 300:
+            if len(os.listdir(self.rp + 'temp')) >= 10:
                 time.sleep(0.1)
                 continue
             if count_wd == 5:
@@ -113,9 +113,9 @@ class BiliLive(object):
         """清理缓存线程"""
         print("CLEAN THREAD START")
         while not self.ef:
-            if len(os.listdir(self.rp + 'temp')) >= 250:
+            if len(os.listdir(self.rp + 'temp')) >= 5:
                 for file in os.listdir(self.rp + 'temp'):
-                    if int(file.replace('.jpgx', '')) < Timer.timestamp() - 20:
+                    if int(file.replace('.jpgx', '')) < Timer.timestamp() - 2:
                         os.remove(self.rp + 'temp/' + file)
                         print("CLEAN IMAGE -> %s" % file.replace('.jpgx', ''))
             time.sleep(1)
