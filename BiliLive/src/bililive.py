@@ -72,10 +72,10 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'BGM: 放不出来呢', (20, 680), 20, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, '早起打卡', (800, 100), 25, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, (255, 117, 0, 0),
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
         for key, rk in enumerate(StudyExt.SignRank()):
-            image = ImageCtrl.image_write(image, rk, (800, key * 22 + 125), 20, (255, 117, 0, 0),
+            image = ImageCtrl.image_write(image, rk, (800, key * 24 + 125), 20, (255, 117, 0, 0),
                                           self.rp + 'font/SourceHanSansCN-Medium.otf')
 
         if save != None:
