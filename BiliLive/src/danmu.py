@@ -19,10 +19,13 @@ class MyBLiveClient(BLiveClient):
         command['data']['giftName'], command['data']['num'], command['data']['uname'],
         command['data']['coin_type'], command['data']['total_coin']
     )
+    _COMMAND_HANDLERS['DANMU_MSG'] = lambda client, command: client._my_on_get_danmaku(
+        command['info'][1], command['info'][2][0], command['info'][2][1]
+    )
 
-    async def _on_get_danmaku(self, content, user_name):
+    async def _my_on_get_danmaku(self, content, user_id, user_name):
         print(f'{user_name}：{content}')
-        DanmuHandle.send(Robot.text_msg(user_name, content))
+        DanmuHandle.send(Robot.text_msg(user_id, user_name, content))
 
     async def _my_on_gift(self, gift_name, gift_num, user_name, coin_type, total_coin):
         print(f'{user_name} 赠送{gift_name}x{gift_num} （{coin_type}币x{total_coin}）')
@@ -78,3 +81,9 @@ class DanmuHandle(object):
         except Exception as e:
             print(e)
             return False
+
+        test = {"cmd": "DANMU_MSG", "info": [[0, 1, 25, 16777215, 1554181140, -862863240, 0, "49a7bfc0", 0, 0, 0], "测试",
+                                             [16011372, "_kamino_", 0, 0, 0, 10000, 1, ""],
+                                             [4, "爸气", "阿里巴巴", 6728511, 6406234, ""], [28, 0, 5805790, "\u003e50000"],
+                                             ["title-111-1", "title-111-1"], 0, 0, None,
+                                             {"ts": 1554181140, "ct": "A949467F"}]}

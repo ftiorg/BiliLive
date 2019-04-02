@@ -11,7 +11,7 @@ from .timer import Timer
 
 
 class StudyExt(object):
-    E = {'sign': []}
+    E = {'sign': [], 'user': {}}
 
     @staticmethod
     def GetWord():
@@ -41,25 +41,24 @@ class StudyExt(object):
         return data
 
     @staticmethod
-    def SignAdd(name=None):
+    def SignAdd(uid, uname):
         """添加签到"""
-        if name == None:
-            return None
+        StudyExt.E['user'][uid] = uname
         if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
-            return None
+            return '请在4点之后打卡,要注意休息哦'
         for k, s in enumerate(StudyExt.E['sign']):
-            if name in s:
-                return f'{s[0][0:2]}*已于{str(s[1])[0:5]}打卡成功,排名{k + 1}'
+            if uid in s:
+                return f'{uname[0:2]}*已于{str(s[1])[0:5]}打卡成功,排名{k + 1}'
         dl = DbLink()
-        StudyExt.E['sign'].append((name, Timer.stamp2str(Timer.timestamp(), '%H:%M:%S')))
+        StudyExt.E['sign'].append((uid, Timer.stamp2str(Timer.timestamp(), '%H:%M:%S')))
         dl.insert("INSERT INTO `sign`(`uid`, `name`, `date`, `time`) VALUES ('%s', '%s', '%s', '%s');" % (
-            name, name, Timer.stamp2str(Timer.timestamp(),
+            uid, uname, Timer.stamp2str(Timer.timestamp(),
                                         '%Y-%m-%d'), Timer.stamp2str(Timer.timestamp(),
                                                                      '%H:%M:%S')))
         rk = dl.query(
             "SELECT COUNT(*) FROM `sign` WHERE `date` = '%s' ORDER BY 'time' ASC;" % Timer.stamp2str(Timer.timestamp(),
                                                                                                      '%Y-%m-%d'))[0][0]
-        return f'{name[0:2]}*打卡成功,今日排名{rk}'
+        return f'{uname[0:2]}*打卡成功,今日排名{rk}'
 
     @staticmethod
     def SignRank():
@@ -69,15 +68,16 @@ class StudyExt(object):
             return ['请在4点之后打卡,要注意休息哦']
         if len(StudyExt.E['sign']) == 0:
             for sn in StudyExt.SignedList():
-                StudyExt.E['sign'].append((sn[2], sn[4]))
+                StudyExt.E['sign'].append((sn[1], sn[4]))
         msg = []
         rank = StudyExt.E['sign']
         if len(rank) == 0:
-            return ['暂无(可能会有5分钟延迟)']
+            return ['暂无(可能会有1分钟延迟)']
         elif len(rank) < 5:
             max = len(rank)
         else:
             max = 5
         for i in range(max):
-            msg.append(f'No{i + 1} {rank[i][0]} {rank[i][1]}')
+            uname = StudyExt.E['user'][rank[i][0]]
+            msg.append(f'No{i + 1} {uname} {rank[i][1]}')
         return msg

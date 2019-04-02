@@ -14,20 +14,20 @@ from .timer import Timer
 class Robot(object):
 
     @staticmethod
-    def text_msg(user_name, content):
+    def text_msg(user_id, user_name, content):
         """处理文本消息"""
-        content = content.replace('~喵', '')  # 愚人节
+        # content = content.replace('~喵', '')  # 愚人节
         File.add(Config.config('root-path') + 'BiliLive/save/danmu.log',
-                 f'[{Timer.stamp2str(Timer.timestamp())}] {user_name}: {content}\n')
+                 f'[{Timer.stamp2str(Timer.timestamp())}] {user_id}({user_name}): {content}\n')
         if user_name == Config.config('auth')['name']:
             return None
         if content == "打卡":
-            rank = StudyExt.SignAdd(user_name)
+            rank = StudyExt.SignAdd(user_id, user_name)
             if rank != None:
                 return rank
             return '打卡失败，不知道为啥'
 
-        return f'复读 {content}'
+        return f'喵~'
 
     @staticmethod
     def gift_msg(user_name, gift_name, gift_num):

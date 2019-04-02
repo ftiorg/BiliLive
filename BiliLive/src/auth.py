@@ -19,3 +19,26 @@ class Auth(object):
         requests的cookie
         """
         return None
+
+    @staticmethod
+    def get_data_by_uid(uid):
+        """获取用户信息接口"""
+        try:
+            response = requests.post('http://space.bilibili.com/ajax/member/GetInfo', data={'mid': uid}, headers={
+                'Referer': 'https://space.bilibili.com/%d/' % int(uid),
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            })
+            if response.status_code != 200:
+                return None
+            return json.loads(response.content)
+        except Exception as e:
+            print(e)
+            return None
+
+    @staticmethod
+    def get_uname(uid):
+        """通过uid获取uname"""
+        data = Auth.get_data_by_uid(uid)
+        if data == None and data['status'] != True:
+            return None
+        return data['data']['name']
