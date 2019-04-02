@@ -8,6 +8,7 @@ import requests
 import random
 from .database import DbLink
 from .timer import Timer
+from .auth import Auth
 
 
 class StudyExt(object):
@@ -78,6 +79,10 @@ class StudyExt(object):
         else:
             max = 5
         for i in range(max):
-            uname = StudyExt.E['user'][rank[i][0]]
+            try:
+                uname = StudyExt.E['user'][rank[i][0]]
+            except KeyError:
+                StudyExt.E['user'][rank[i][0]] = Auth.get_uname(rank[i][0])
+                uname = StudyExt.E['user'][rank[i][0]]
             msg.append(f'No{i + 1} {uname} {rank[i][1]}')
         return msg
