@@ -45,5 +45,6 @@ class DbLink(object):
             self.db.commit()
             return True
         except Exception as e:
+            print(e)
             self.db.rollback()
             return False

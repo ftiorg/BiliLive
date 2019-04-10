@@ -21,7 +21,7 @@ class Robot(object):
                  f'[{Timer.stamp2str(Timer.timestamp())}] {user_id}({user_name}): {content}\n')
         if user_name == Config.config('auth')['name']:
             return None
-        if content == "打卡":
+        if StudyExt.IsSign(content):
             rank = StudyExt.SignAdd(user_id, user_name)
             if rank != None:
                 return rank

@@ -6,6 +6,7 @@
 import json
 import requests
 import random
+import re
 from .database import DbLink
 from .timer import Timer
 from .auth import Auth
@@ -86,3 +87,9 @@ class StudyExt(object):
                 uname = StudyExt.E['user'][rank[i][0]]
             msg.append(f'No{i + 1} {uname} {rank[i][1]}')
         return msg
+
+    @staticmethod
+    def IsSign(text=None):
+        if re.search(r'打(.*)卡',text) == None:
+            return False
+        return True
