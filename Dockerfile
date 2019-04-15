@@ -12,7 +12,7 @@ ADD . /app
 
 RUN conda install -y opencv ffmpeg pillow numpy mutagen flask pymysql aiohttp requests &&\
     apt update &&\
-    apt install -y git build-essential libssl-dev &&\
+    apt install -y git build-essential libssl-dev procps &&\
     cd /usr/src &&\
     apt source nginx &&\
     git clone https://github.com/arut/nginx-rtmp-module.git &&\

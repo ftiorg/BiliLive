@@ -156,6 +156,7 @@ class BiliLive(object):
             else:
                 print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
         print("PUSH THREAD EXIT")
+        os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
 
     def _danmu_thread(self):
         """弹幕处理线程"""
