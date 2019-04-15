@@ -90,6 +90,6 @@ class StudyExt(object):
 
     @staticmethod
     def IsSign(text=None):
-        if re.search(r'打(.*)卡',text) == None:
+        if re.search(r'打(.*)卡',text) == None and re.search(r'签(.*)到',text) == None:
             return False
         return True
