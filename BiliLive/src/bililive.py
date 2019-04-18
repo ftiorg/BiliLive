@@ -45,7 +45,6 @@ class BiliLive(object):
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
         ct = Timer.stamp2str(time.time())
-        sign_txt = lambda: f'签到'
         image = ImageCtrl.image_create(1280, 720)
         image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, (255, 117, 0, 0),
                                       self.rp + 'font/SetoFont-1.ttf')
@@ -155,6 +154,7 @@ class BiliLive(object):
                         break
             else:
                 print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
+        DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp()))
         print("PUSH THREAD EXIT")
         os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
 
