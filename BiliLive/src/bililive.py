@@ -154,7 +154,7 @@ class BiliLive(object):
                         break
             else:
                 print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
-        DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp()))
+        DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
         print("PUSH THREAD EXIT")
         os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
 
