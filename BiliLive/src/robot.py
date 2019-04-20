@@ -3,12 +3,12 @@
 # @Time    : 2019/3/26 下午 06:07
 # @Author  : kamino
 
-import time
-import queue
+import os
 from .config import Config
 from .study import StudyExt
 from .file import File
 from .timer import Timer
+from .danmu import DanmuHandle
 
 
 class Robot(object):
@@ -26,6 +26,10 @@ class Robot(object):
             if rank != None:
                 return rank
             return '打卡失败，不知道为啥'
+        if content == 'sudo restart':
+            DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
+            print("SUDO RESTART")
+            os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
 
         return f'喵~'
 

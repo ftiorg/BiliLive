@@ -81,9 +81,3 @@ class DanmuHandle(object):
         except Exception as e:
             print(e)
             return False
-
-        test = {"cmd": "DANMU_MSG", "info": [[0, 1, 25, 16777215, 1554181140, -862863240, 0, "49a7bfc0", 0, 0, 0], "测试",
-                                             [16011372, "_kamino_", 0, 0, 0, 10000, 1, ""],
-                                             [4, "爸气", "阿里巴巴", 6728511, 6406234, ""], [28, 0, 5805790, "\u003e50000"],
-                                             ["title-111-1", "title-111-1"], 0, 0, None,
-                                             {"ts": 1554181140, "ct": "A949467F"}]}
