@@ -26,7 +26,7 @@ class Robot(object):
             if rank != None:
                 return rank
             return '打卡失败，不知道为啥'
-        if content == 'sudo restart':
+        if content == 'sudo reboot':
             DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
             print("SUDO RESTART")
             os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
