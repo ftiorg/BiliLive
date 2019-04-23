@@ -12,6 +12,7 @@ from BiliLive.src.error import Error
 from BiliLive.src.danmu import DanmuHandle
 from BiliLive.src.config import Config
 from BiliLive.src.auth import Auth
+from BiliLive.src.robot import Robot, RobotReply
 
 """读取配置文件"""
 Config.load_config()

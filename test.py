@@ -14,4 +14,4 @@ if __name__ == '__main__':
     # print(BiliLive.StudyExt.SignedList())
     # print(BiliLive.StudyExt.SignRank())
     # print(BiliLive.Auth.get_uname('16011372'))                                                                                      time=time))
-    pass
+    print(BiliLive.RobotReply.reply(1, 1, 'hello'))

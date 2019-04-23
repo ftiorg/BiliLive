@@ -4,6 +4,9 @@
 # @Author  : kamino
 
 import os
+import re
+import linecache
+import random
 from .config import Config
 from .study import StudyExt
 from .file import File
@@ -44,6 +47,9 @@ class Robot(object):
 class RobotReply(object):
 
     @staticmethod
-    def reply(user_id, user_name, content):
+    def reply(user_id=0, user_name=0, content=''):
         """处理消息"""
-        return content
+        message = linecache.getline(Config.config('root-path') + 'BiliLive/save/subtitle_wuyu.txt',
+                                    random.randint(1, 30910)).replace('\n', '')
+
+        return re.sub(r'[\u4e00-\u9fa5]', '喵', message)[:20]
