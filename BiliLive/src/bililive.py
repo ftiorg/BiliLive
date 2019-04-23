@@ -44,37 +44,39 @@ class BiliLive(object):
         text_flame = lambda x: ''.zfill(len(x))
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
+        # color = (255, 117, 0, 0)
+        color = (0, 255, 0, 0)
         ct = Timer.stamp2str(time.time())
         image = ImageCtrl.image_create(1280, 720)
-        image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, color,
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, text_flame(text), location, size, (110, 0, 0, 50),
                                       self.rp + 'font/BONX-Silhouette.otf')
-        image = ImageCtrl.image_write(image, text, location, size, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, text, location, size, color,
                                       self.rp + 'font/BONX-Medium.otf')
         image = ImageCtrl.image_write(image, text_flame(text), location, size, (0, 0, 0, 0),
                                       self.rp + 'font/BONX-Frame.otf')
-        image = ImageCtrl.image_write(image, '秒', (1100, 300), 60, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '秒', (1100, 300), 60, color,
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, '%d天' % (int(text) / 86400), (530, 500), 60,
-                                      (255, 117, 0, 0),
+                                      color,
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, self.wd[1], (20, 550), 40, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, self.wd[1], (20, 550), 40, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
-        image = ImageCtrl.image_write(image, self.wd[2], (20, 600), 30, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, self.wd[2], (20, 600), 30, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
-        image = ImageCtrl.image_write(image, self.yy[0] + ' —— ' + self.yy[1], (5, 5), 20, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, self.yy[0] + ' —— ' + self.yy[1], (5, 5), 20, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
-        image = ImageCtrl.image_write(image, 'SERVER TIME: %s' % ct, (500, 650), 20, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, 'SERVER TIME: %s' % ct, (500, 650), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, 'BGM: 放不出来呢', (20, 680), 20, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, 'BGM: 放不出来呢', (20, 680), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, (255, 117, 0, 0),
+        image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
         for key, rk in enumerate(StudyExt.SignRank()):
-            image = ImageCtrl.image_write(image, rk, (800, key * 24 + 125), 20, (255, 117, 0, 0),
+            image = ImageCtrl.image_write(image, rk, (800, key * 24 + 125), 20, color,
                                           self.rp + 'font/SourceHanSansCN-Medium.otf')
 
         if save != None:
