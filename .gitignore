@@ -8,3 +8,4 @@ __pycache__
 /BiliLive/temp/*
 /BiliLive/log/*
 /config/config.json
+!*.txt

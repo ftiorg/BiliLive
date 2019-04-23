@@ -29,7 +29,7 @@ class Robot(object):
             print("SUDO RESTART")
             os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
 
-        return f'喵~'
+        return RobotReply.reply(user_id, user_name, content)
 
     @staticmethod
     def gift_msg(user_name, gift_name, gift_num):
@@ -39,3 +39,11 @@ class Robot(object):
         if user_name == Config.config('auth')['username']:
             return None
         return f'感谢{user_name}的{gift_name}'
+
+
+class RobotReply(object):
+
+    @staticmethod
+    def reply(user_id, user_name, content):
+        """处理消息"""
+        return content
