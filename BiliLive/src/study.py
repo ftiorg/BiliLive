@@ -10,6 +10,7 @@ import re
 from .database import DbLink
 from .timer import Timer
 from .auth import Auth
+from .config import Config
 
 
 class StudyExt(object):
@@ -90,6 +91,23 @@ class StudyExt(object):
 
     @staticmethod
     def IsSign(text=None):
-        if re.search(r'打(.*)卡',text) == None and re.search(r'签(.*)到',text) == None:
+        if re.search(r'打(.*)卡', text) == None and re.search(r'签(.*)到', text) == None:
             return False
         return True
+
+    @staticmethod
+    def ChgColor(text=None):
+        """修改文字颜色"""
+        r = re.search(r'color (.*)', text)
+        if r == None:
+            return False
+        color = r.group(1)
+        rgb = {
+            'red': (255, 0, 0, 0),
+            'green': (0, 255, 0, 0),
+            'blue': (0, 0, 0, 255)
+        }
+        try:
+            return rgb[color]
+        except KeyError:
+            return (255, 117, 0, 0)

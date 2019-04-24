@@ -44,8 +44,8 @@ class BiliLive(object):
         text_flame = lambda x: ''.zfill(len(x))
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
-        # color = (255, 117, 0, 0)
-        color = (0, 255, 0, 0)
+        Config.config('color') or Config.set('color', (255, 117, 0, 0))
+        color = Config.config('color')
         ct = Timer.stamp2str(time.time())
         image = ImageCtrl.image_create(1280, 720)
         image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, color,

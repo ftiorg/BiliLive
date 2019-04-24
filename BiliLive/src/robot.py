@@ -31,6 +31,8 @@ class Robot(object):
         if content == 'sudo reboot':
             print("SUDO RESTART")
             os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
+        if StudyExt.ChgColor(content):
+            return '喵'
 
         return RobotReply.reply(user_id, user_name, content)
 
