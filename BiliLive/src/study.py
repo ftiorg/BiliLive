@@ -103,6 +103,7 @@ class StudyExt(object):
             return False
         color = r.group(1)
         rgb = {
+            'random': (999, 999, 999, 999),
             'reset': (255, 117, 0, 0),
             'red': (255, 0, 0, 0),
             'green': (0, 255, 0, 0),
