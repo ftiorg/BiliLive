@@ -103,11 +103,13 @@ class StudyExt(object):
             return False
         color = r.group(1)
         rgb = {
+            'reset': (255, 117, 0, 0),
             'red': (255, 0, 0, 0),
             'green': (0, 255, 0, 0),
             'blue': (0, 0, 0, 255)
         }
         try:
             Config.set('color', rgb[color])
+            return True
         except KeyError:
-            Config.set('color', (255, 117, 0, 0))
+            return False
