@@ -108,6 +108,6 @@ class StudyExt(object):
             'blue': (0, 0, 0, 255)
         }
         try:
-            return rgb[color]
+            Config.set('color', rgb[color])
         except KeyError:
-            return (255, 117, 0, 0)
+            Config.set('color', (255, 117, 0, 0))
