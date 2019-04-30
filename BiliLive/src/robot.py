@@ -40,7 +40,7 @@ class Robot(object):
         """处理礼物消息"""
         File.add(Config.config('root-path') + 'BiliLive/save/gift.log',
                  f'[{Timer.stamp2str(Timer.timestamp())}] {user_name}: {gift_name}x{gift_num}\n')
-        return f'感谢{user_name}的{gift_name}'
+        return f'感谢{user_name}的{gift_num}个{gift_name}'
 
 
 class RobotReply(object):
@@ -51,4 +51,4 @@ class RobotReply(object):
         message = linecache.getline(Config.config('root-path') + 'BiliLive/save/subtitle_wuyu.txt',
                                     random.randint(1, 30910)).replace('\n', '')
 
-        return re.sub(r'[\u4e00-\u9fa5]', '喵', message)[:20]
+        return re.sub(r'[\u4e00-\u9fa5]', '喵', message)[:30]
