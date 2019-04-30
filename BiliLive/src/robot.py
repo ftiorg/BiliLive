@@ -18,7 +18,6 @@ class Robot(object):
     @staticmethod
     def text_msg(user_id, user_name, content):
         """处理文本消息"""
-        # content = content.greplace('~喵', '')  # 愚人节
         File.add(Config.config('root-path') + 'BiliLive/save/danmu.log',
                  f'[{Timer.stamp2str(Timer.timestamp())}] {user_id}({user_name}): {content}\n')
         if user_name == Config.config('auth')['name']:
