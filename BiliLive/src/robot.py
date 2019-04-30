@@ -38,6 +38,7 @@ class Robot(object):
     @staticmethod
     def gift_msg(user_name, gift_name, gift_num):
         """处理礼物消息"""
+        return user_name
         File.add(Config.config('root-path') + 'BiliLive/save/gift.log',
                  f'[{Timer.stamp2str(Timer.timestamp())}] {user_name}: {gift_name}x{gift_num}\n')
         if user_name == Config.config('auth')['username']:
