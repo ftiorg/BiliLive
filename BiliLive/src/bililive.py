@@ -207,6 +207,13 @@ class BiliLive(object):
                     print(e)
         print("MUSIC THREAD EXIT")
 
+    def _timer_thread(self):
+        """定时器线程"""
+        print("TIMER THREAD START")
+        Timer.timer()
+        print("TIMER THREAD EXIT")
+
+
     def __del__(self):
         """退出时清理"""
         self._clean_temp()
@@ -217,5 +224,6 @@ class BiliLive(object):
         threading.Thread(target=self._clean_thread).start()
         Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
         threading.Thread(target=self._push_thread).start()
+        threading.Thread(target=self._timer_thread).start()
         if Config.config('robot'):
             self._danmu_thread()

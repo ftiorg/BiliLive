@@ -61,7 +61,7 @@ class DanmuHandle(object):
                 "color": 16777215,
                 "fontsize": 25,
                 "mode": "1",
-                "msg": msg[0:20],
+                "msg": msg[0:30],
                 "rnd": Timer.timestamp(),
                 "roomid": Config.config('room-id'),
                 "bubble": 0,
