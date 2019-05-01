@@ -13,7 +13,7 @@ from .auth import Auth
 from .config import Config
 
 
-class StudyExt(object):
+class Extension(object):
     E = {'sign': [], 'user': {}}
 
     @staticmethod
@@ -46,14 +46,14 @@ class StudyExt(object):
     @staticmethod
     def SignAdd(uid, uname):
         """添加签到"""
-        StudyExt.E['user'][uid] = uname
+        Extension.E['user'][uid] = uname
         if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
             return '请在4点之后打卡,要注意休息哦'
-        for k, s in enumerate(StudyExt.E['sign']):
+        for k, s in enumerate(Extension.E['sign']):
             if uid in s:
                 return f'{uname[0:2]}*已于{str(s[1])[0:5]}打卡成功,排名{k + 1}'
         dl = DbLink()
-        StudyExt.E['sign'].append((uid, Timer.stamp2str(Timer.timestamp(), '%H:%M:%S')))
+        Extension.E['sign'].append((uid, Timer.stamp2str(Timer.timestamp(), '%H:%M:%S')))
         dl.insert("INSERT INTO `sign`(`uid`, `name`, `date`, `time`) VALUES ('%s', '%s', '%s', '%s');" % (
             uid, uname, Timer.stamp2str(Timer.timestamp(),
                                         '%Y-%m-%d'), Timer.stamp2str(Timer.timestamp(),
@@ -67,13 +67,13 @@ class StudyExt(object):
     def SignRank():
         """签到排名"""
         if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
-            StudyExt.E['sign'].clear()
+            Extension.E['sign'].clear()
             return ['请在4点之后打卡,要注意休息哦']
-        if len(StudyExt.E['sign']) == 0:
-            for sn in StudyExt.SignedList():
-                StudyExt.E['sign'].append((sn[1], sn[4]))
+        if len(Extension.E['sign']) == 0:
+            for sn in Extension.SignedList():
+                Extension.E['sign'].append((sn[1], sn[4]))
         msg = []
-        rank = StudyExt.E['sign']
+        rank = Extension.E['sign']
         if len(rank) == 0:
             return ['暂无(可能会有1分钟延迟)']
         elif len(rank) < 5:
@@ -82,10 +82,10 @@ class StudyExt(object):
             max = 5
         for i in range(max):
             try:
-                uname = StudyExt.E['user'][rank[i][0]]
+                uname = Extension.E['user'][rank[i][0]]
             except KeyError:
-                StudyExt.E['user'][rank[i][0]] = Auth.get_uname(rank[i][0])
-                uname = StudyExt.E['user'][rank[i][0]]
+                Extension.E['user'][rank[i][0]] = Auth.get_uname(rank[i][0])
+                uname = Extension.E['user'][rank[i][0]]
             msg.append(f'No{i + 1} {uname} {rank[i][1]}')
         return msg
 
@@ -114,3 +114,8 @@ class StudyExt(object):
             return True
         except KeyError:
             return False
+
+    @staticmethod
+    def ForbidBot(*args):
+        """禁言机器人(分钟)"""
+        Config.set('forbid', False)

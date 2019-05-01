@@ -3,8 +3,6 @@
 # @Time    : 2019/3/26 下午 04:02
 # @Author  : kamino
 
-import asyncio
-import threading
 import requests
 from .blivedm.blivedm import BLiveClient
 from .config import Config
@@ -54,7 +52,7 @@ class DanmuHandle(object):
     @staticmethod
     def send(msg=None):
         """发送消息"""
-        if msg == None:
+        if msg is None or Config.config('forbid'):
             return False
         try:
             data = {

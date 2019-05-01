@@ -8,7 +8,7 @@ import re
 import linecache
 import random
 from .config import Config
-from .study import StudyExt
+from .extension import Extension
 from .file import File
 from .timer import Timer
 
@@ -22,16 +22,22 @@ class Robot(object):
                  f'[{Timer.stamp2str(Timer.timestamp())}] {user_id}({user_name}): {content}\n')
         if user_name == Config.config('auth')['name']:
             return None
-        if StudyExt.IsSign(content):
-            rank = StudyExt.SignAdd(user_id, user_name)
+        if Extension.IsSign(content):
+            rank = Extension.SignAdd(user_id, user_name)
             if rank != None:
                 return rank
             return '打卡失败，不知道为啥'
         if content == 'sudo reboot':
             print("SUDO RESTART")
             os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
-        if StudyExt.ChgColor(content):
+        if Extension.ChgColor(content):
             return '喵'
+        if content == '禁言小弟':
+            Config.set('forbid', True)
+            Timer.timer_add(action=Extension.ForbidBot, runat=Timer.timestamp() + (5 * 60))
+            return None
+        if content == '解除禁言':
+            Config.set('forbid', False)
 
         return RobotReply.reply(user_id, user_name, content)
 

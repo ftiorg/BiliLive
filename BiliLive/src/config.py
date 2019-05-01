@@ -36,7 +36,7 @@ class Config(object):
     @staticmethod
     def set(key=None, value=None):
         """设置配置项"""
-        if (key and value):
+        if key is not None:
             Config.CONFIG[key] = value
             print(f'SET {key} AS {value}')
             return True

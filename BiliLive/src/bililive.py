@@ -11,7 +11,7 @@ import asyncio
 import random
 from .image import ImageCtrl
 from .audio import AudioCtrl
-from .study import StudyExt
+from .extension import Extension
 from .danmu import DanmuHandle
 from .config import Config
 from .timer import Timer
@@ -29,14 +29,20 @@ class BiliLive(object):
         self.cf = Config.config()  # 配置项
         self.bn = ''  # 背景音乐
         self.nl = open(os.devnull, 'w')  # 虚空
-        self.wd = StudyExt.GetWord()  # 加个单词
-        self.yy = StudyExt.GetYiyan()  # 一言API
+        self.wd = Extension.GetWord()  # 加个单词
+        self.yy = Extension.GetYiyan()  # 一言API
         if not os.path.exists(self.rp + 'temp'):
             os.mkdir(self.rp + 'temp', 777)
             print("CREATE DIR -> TEMP")
         if not os.path.exists(self.rp + 'save'):
             os.mkdir(self.rp + 'save', 777)
             print("CREATE DIR -> SAVE")
+        self.config_init()
+
+    def config_init(self):
+        """初始化配置项"""
+        Config.set('color', (255, 117, 0, 0))
+        Config.set('forbid', False)
 
     def make_image(self, text=None, save=None, show=False):
         """生成帧"""
@@ -45,7 +51,6 @@ class BiliLive(object):
         text_flame = lambda x: ''.zfill(len(x))
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
-        Config.config('color') or Config.set('color', (255, 117, 0, 0))
         if Config.config('color') == (999, 999, 999, 999):
             color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), 0)
         else:
@@ -79,13 +84,13 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
-        for key, rk in enumerate(StudyExt.SignRank()):
+        for key, rk in enumerate(Extension.SignRank()):
             image = ImageCtrl.image_write(image, rk, (800, key * 24 + 125), 20, color,
                                           self.rp + 'font/SourceHanSansCN-Medium.otf')
 
         if save != None:
             ImageCtrl.image_save(image, save)
-        if show == True:
+        if show:
             ImageCtrl.image_show(image)
         return ImageCtrl.image_tostring(image)
 
@@ -100,10 +105,10 @@ class BiliLive(object):
                 time.sleep(0.1)
                 continue
             if count_wd == 5:
-                self.wd = StudyExt.GetWord()
+                self.wd = Extension.GetWord()
                 count_wd = 0
             if count_yy == 12:
-                self.yy = StudyExt.GetYiyan()
+                self.yy = Extension.GetYiyan()
                 count_yy = 0
 
             print("MAKE IMAGE -> %s" % sec)
@@ -213,17 +218,16 @@ class BiliLive(object):
         Timer.timer()
         print("TIMER THREAD EXIT")
 
-
     def __del__(self):
         """退出时清理"""
         self._clean_temp()
 
     def run(self):
         """运行"""
-        threading.Thread(target=self._make_thread).start()
-        threading.Thread(target=self._clean_thread).start()
+        Config.config('live') and threading.Thread(target=self._make_thread).start()
+        Config.config('live') and threading.Thread(target=self._clean_thread).start()
         Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
-        threading.Thread(target=self._push_thread).start()
+        Config.config('live') and threading.Thread(target=self._push_thread).start()
         threading.Thread(target=self._timer_thread).start()
         if Config.config('robot'):
             self._danmu_thread()
