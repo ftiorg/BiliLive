@@ -42,10 +42,10 @@ class Robot(object):
         return RobotReply.reply(user_id, user_name, content)
 
     @staticmethod
-    def gift_msg(user_name, gift_name, gift_num):
+    def gift_msg(user_id, user_name, gift_name, gift_num):
         """处理礼物消息"""
         File.add(Config.config('root-path') + 'BiliLive/save/gift.log',
-                 f'[{Timer.stamp2str(Timer.timestamp())}] {user_name}: {gift_name}x{gift_num}\n')
+                 f'[{Timer.stamp2str(Timer.timestamp())}] {user_id}({user_name}): {gift_name}x{gift_num}\n')
         return f'感谢{user_name}的{gift_num}个{gift_name}喵~'
 
 

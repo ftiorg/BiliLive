@@ -7,7 +7,7 @@
 opencv和Pillow生成倒计时的图片，使用ffmpeg进行rtmp推流
 
 ### 使用方法
-建议使用Docker部署
+需要使用Docker部署
 ```bash
 git clone https://github.com/isdut/BiliLive.git
 cd BiliLive

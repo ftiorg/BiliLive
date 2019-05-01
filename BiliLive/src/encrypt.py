@@ -7,6 +7,7 @@ import hashlib
 import random
 import base64
 import binascii
+import pymysql
 from Crypto.Cipher import AES
 
 
@@ -48,3 +49,8 @@ class Encrypt(object):
         """AES解密"""
         aes = AES.new(Encrypt.fill_to_16x(key).encode('utf-8'), AES.MODE_ECB)
         return aes.decrypt(binascii.a2b_hex(text)).decode('utf-8').replace('\0', '')
+
+    @staticmethod
+    def trans_str(s=None):
+        """转义字符串"""
+        return pymysql.escape_string(s)

@@ -4,8 +4,6 @@
 # @Author  : kamino
 
 import pymysql
-import os
-import json
 from .config import Config
 
 
