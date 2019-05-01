@@ -10,7 +10,7 @@ ADD docker/pip.conf /root/.pip/pip.conf
 ADD docker/nginx.conf /usr/local/nginx/conf/nginx.conf
 ADD . /app
 
-RUN conda install -y opencv ffmpeg pillow numpy mutagen flask pymysql aiohttp requests &&\
+RUN conda install -y opencv ffmpeg pillow numpy mutagen flask pymysql aiohttp requests pycrypto &&\
     apt update &&\
     apt install -y git build-essential libssl-dev procps &&\
     cd /usr/src &&\
