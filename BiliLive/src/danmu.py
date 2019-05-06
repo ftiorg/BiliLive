@@ -4,6 +4,7 @@
 # @Author  : kamino
 
 import requests
+import time
 from .blivedm.blivedm import BLiveClient
 from .config import Config
 from .timer import Timer
@@ -57,10 +58,14 @@ class MyBLiveClient(BLiveClient):
 class DanmuHandle(object):
     @staticmethod
     async def async_main():
-        client = MyBLiveClient(Config.config('room-id'), True)
+        client = MyBLiveClient(Config.config('room-id'), False)
         future = client.run()
         try:
             await future
+        except Exception as e:
+            DanmuHandle.send(str(e))
+            time.sleep(5)
+            await DanmuHandle.async_main()
         finally:
             await client.close()
 
