@@ -43,7 +43,6 @@ class BiliLive(object):
         """初始化配置项"""
         Config.set('color', (255, 117, 0, 0))
         Config.set('forbid', False)
-        Timer.timer_add(Extension.AutoReboot, 0)
 
     def make_image(self, text=None, save=None, show=False):
         """生成帧"""
@@ -230,5 +229,6 @@ class BiliLive(object):
         Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
         Config.config('live') and threading.Thread(target=self._push_thread).start()
         threading.Thread(target=self._timer_thread).start()
+        Timer.timer_add(Extension.AutoReboot, 0)
         if Config.config('robot'):
             self._danmu_thread()
