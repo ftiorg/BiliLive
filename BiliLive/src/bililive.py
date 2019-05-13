@@ -43,6 +43,7 @@ class BiliLive(object):
         """初始化配置项"""
         Config.set('color', (255, 117, 0, 0))
         Config.set('forbid', False)
+        Timer.timer_add(Extension.AutoReboot, 0)
 
     def make_image(self, text=None, save=None, show=False):
         """生成帧"""

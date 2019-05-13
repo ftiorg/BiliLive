@@ -7,10 +7,13 @@ import json
 import requests
 import random
 import re
+import os
+import time
 from .database import DbLink
 from .timer import Timer
 from .auth import Auth
 from .config import Config
+from .danmu import DanmuHandle
 
 
 class Extension(object):
@@ -119,3 +122,11 @@ class Extension(object):
     def ForbidBot(*args):
         """禁言机器人(分钟)"""
         Config.set('forbid', False)
+
+    @staticmethod
+    def AutoReboot(hours=6 * 60 * 60):
+        """自动重启"""
+        while True:
+            time.sleep(hours)
+            DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
+            os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
