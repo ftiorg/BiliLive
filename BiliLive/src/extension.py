@@ -125,9 +125,7 @@ class Extension(object):
     @staticmethod
     def AutoReboot(hours=6 * 60 * 60):
         """自动重启"""
-        """
         while True:
             time.sleep(hours)
-            DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
+            print("AUTO RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
             os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
-            """

@@ -229,6 +229,6 @@ class BiliLive(object):
         Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
         Config.config('live') and threading.Thread(target=self._push_thread).start()
         threading.Thread(target=self._timer_thread).start()
-        #Timer.timer_add(Extension.AutoReboot, 0)
+        Timer.timer_add(Extension.AutoReboot, 0)
         if Config.config('robot'):
             self._danmu_thread()
