@@ -3,18 +3,18 @@
 # @Time    : 2019/3/8 下午 07:06
 # @Author  : kamino
 
-from BiliLive.src.bililive import BiliLive
-from BiliLive.src.audio import AudioCtrl
-from BiliLive.src.image import ImageCtrl
-from BiliLive.src.extension import Extension
-from BiliLive.src.rtmp import Rtmp
-from BiliLive.src.error import Error
-from BiliLive.src.danmu import DanmuHandle
-from BiliLive.src.config import Config
-from BiliLive.src.auth import Auth
-from BiliLive.src.encrypt import Encrypt
-from BiliLive.src.robot import Robot, RobotReply
-from BiliLive.src.timer import Timer
+from .src.bililive import BiliLive
+from .src.audio import AudioCtrl
+from .src.image import ImageCtrl
+from .src.extension import Extension
+from .src.rtmp import Rtmp
+from .src.error import Error
+from .src.danmu import DanmuHandle
+from .src.config import Config
+from .src.auth import Auth
+from .src.encrypt import Encrypt
+from .src.robot import Robot, RobotReply
+from .src.timer import Timer
 
 """读取配置文件"""
 Config.load_config()
