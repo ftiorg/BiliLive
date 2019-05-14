@@ -13,7 +13,6 @@ from .database import DbLink
 from .timer import Timer
 from .auth import Auth
 from .config import Config
-from BiliLive.src.danmu import DanmuHandle
 
 
 class Extension(object):
@@ -124,16 +123,9 @@ class Extension(object):
         Config.set('forbid', False)
 
     @staticmethod
-    def AutoReboot(hours=6 * 60):
+    def AutoReboot(*args):
         """自动重启"""
         while True:
-            time.sleep(hours)
+            time.sleep(60 * 60)
             print("AUTO RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
             os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
-
-    @staticmethod
-    def TimerTest():
-        """定时器测试"""
-        while True:
-            time.sleep(10)
-            DanmuHandle.send(Timer.timestamp_str())
