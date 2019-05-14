@@ -230,5 +230,6 @@ class BiliLive(object):
         Config.config('live') and threading.Thread(target=self._push_thread).start()
         threading.Thread(target=self._timer_thread).start()
         Timer.timer_add(Extension.AutoReboot, 0)
+        Timer.timer_add(Extension.TimerTest, 0)
         if Config.config('robot'):
             self._danmu_thread()

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+# !/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Time    : 2019/3/16 下午 11:15
 # @Author  : kamino
@@ -13,6 +13,7 @@ from .database import DbLink
 from .timer import Timer
 from .auth import Auth
 from .config import Config
+from BiliLive.src.danmu import DanmuHandle
 
 
 class Extension(object):
@@ -123,9 +124,16 @@ class Extension(object):
         Config.set('forbid', False)
 
     @staticmethod
-    def AutoReboot(hours=6 * 60 * 60):
+    def AutoReboot(hours=6 * 60):
         """自动重启"""
         while True:
             time.sleep(hours)
             print("AUTO RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
             os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
+
+    @staticmethod
+    def TimerTest():
+        """定时器测试"""
+        while True:
+            time.sleep(10)
+            DanmuHandle.send(Timer.timestamp_str())
