@@ -11,6 +11,7 @@ from .config import Config
 from .extension import Extension
 from .file import File
 from .timer import Timer
+from .error import Control
 
 
 class Robot(object):
@@ -29,7 +30,7 @@ class Robot(object):
             return '打卡失败，不知道为啥'
         if content == 'sudo reboot':
             print("SUDO RESTART")
-            os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
+            Control.force_exit()
         if Extension.ChgColor(content):
             return '喵'
         if content == '禁言小弟':

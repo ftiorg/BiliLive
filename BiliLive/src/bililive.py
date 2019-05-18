@@ -15,6 +15,7 @@ from .extension import Extension
 from .danmu import DanmuHandle
 from .config import Config
 from .timer import Timer
+from .error import Control
 
 
 class BiliLive(object):
@@ -80,7 +81,7 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, 'BGM: 放不出来呢', (20, 680), 20, color,
+        image = ImageCtrl.image_write(image, 'BGM: 快出来了', (20, 680), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
@@ -167,7 +168,7 @@ class BiliLive(object):
                 print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
         DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
         print("PUSH THREAD EXIT")
-        os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
+        Control.force_exit()
 
     def _danmu_thread(self):
         """弹幕处理线程"""
@@ -207,7 +208,6 @@ class BiliLive(object):
                     if os.path.exists(music):
                         length = AudioCtrl.audio_info(music).length
                         print("WAIT %s" % length - (p_stop - p_start))
-                        # time.sleep(length - (p_stop - p_start))
                 except Exception as e:
                     print(e)
         print("MUSIC THREAD EXIT")
@@ -220,7 +220,10 @@ class BiliLive(object):
 
     def __del__(self):
         """退出时清理"""
-        self._clean_temp()
+        try:
+            self._clean_temp()
+        except Exception:
+            pass
 
     def run(self):
         """运行"""

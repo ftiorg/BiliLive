@@ -13,6 +13,7 @@ from .database import DbLink
 from .timer import Timer
 from .auth import Auth
 from .config import Config
+from .error import Control
 
 
 class Extension(object):
@@ -128,4 +129,4 @@ class Extension(object):
         while True:
             time.sleep(60 * 60)
             print("AUTO RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
-            os.system("ps -ef | grep run.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
+            Control.force_exit()
