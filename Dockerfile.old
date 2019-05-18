@@ -9,9 +9,15 @@ ADD docker/pip.conf /root/.pip/pip.conf
 ADD docker/nginx.conf /usr/local/nginx/conf/nginx.conf
 ADD . /app
 
-RUN conda install -y opencv ffmpeg pillow numpy mutagen flask pymysql aiohttp requests pycrypto &&\
+RUN conda install -y opencv ffmpeg pillow numpy mutagen pymysql aiohttp requests pycrypto &&\
     apt update &&\
-    apt install -y git build-essential libssl-dev procps &&\
+    apt install -y git build-essential libssl-dev procps libasound2-dev alsa-utils pulseaudio mpg123 &&\
+    cd /usr/src &&\
+    git clone git://source.ffmpeg.org/ffmpeg.git &&\
+    cd ffmpeg &&\
+    ./configure --disable-x86asm &&\
+    make &&\
+    make install &&\
     apt autoremove -y git build-essential libssl-dev &&\
     conda clean --tarballs -y
 
