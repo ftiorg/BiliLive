@@ -9,3 +9,4 @@ __pycache__
 /BiliLive/log/*
 /config/config.json
 !*.txt
+run.log
