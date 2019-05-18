@@ -142,6 +142,8 @@ class BiliLive(object):
             '-f', 'alsa',
             '-i', 'default',
             '-f', 'rawvideo',
+            '-acodec', 'aac',
+            '-strict', '-2',
             '-vcodec', 'rawvideo',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
