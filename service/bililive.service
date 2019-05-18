@@ -6,7 +6,7 @@ Documentation=https://github.com/kamino-space/BiliLive
 After=network.target
 
 [Service]
-ExecStart=cd /server/BiliLive && /home/ubuntu/miniconda3/bin/python bililive.py
+ExecStart=/home/ubuntu/miniconda3/bin/python /server/BiliLive/bililive.py
 ExecStop=
 Restart=always
 

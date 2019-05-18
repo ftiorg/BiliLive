@@ -5,6 +5,7 @@
 
 import os
 import json
+import getopt
 
 
 class Config(object):
@@ -12,7 +13,8 @@ class Config(object):
 
     @staticmethod
     def load_config():
-        Config.CONFIG['root-path'] = os.path.abspath('.') + '/'
+
+        Config.CONFIG['root-path'] = os.path.dirname(os.path.abspath(__file__)) + '/../../'
         if not os.path.exists(Config.CONFIG['root-path'] + 'config/config.json'):
             print("NOT FOUND CONFIG FILE")
             exit(0)

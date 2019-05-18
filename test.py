@@ -3,18 +3,10 @@
 # @Time    : 2019/3/8 下午 07:07
 # @Author  : kamino
 
-import BiliLive
+# import BiliLive
 import threading
 import time
-
-
-def work(i):
-    t = i[0]
-    for i in range(10):
-        print(t)
-        t += 1
-        time.sleep(1)
-
+import os
 
 if __name__ == '__main__':
     # live = BiliLive.BiliLive()
@@ -27,6 +19,7 @@ if __name__ == '__main__':
     # print(BiliLive.RobotReply.reply(1, 1, 'hello'))
     # print(BiliLive.Extension.ChgColor('color red'))
 
-    threading.Thread(target=BiliLive.Timer.timer).start()
-    BiliLive.Timer.timer_add(action=work, arg=(1,), runat=BiliLive.Timer.timestamp() + 5)
-    BiliLive.Timer.timer_add(action=work, arg=(100,), runat=BiliLive.Timer.timestamp() + 10)
+    # threading.Thread(target=BiliLive.Timer.timer).start()
+    # BiliLive.Timer.timer_add(action=work, arg=(1,), runat=BiliLive.Timer.timestamp() + 5)
+    # BiliLive.Timer.timer_add(action=work, arg=(100,), runat=BiliLive.Timer.timestamp() + 10)
+    print(os.path.dirname(os.path.abspath(__file__)))
