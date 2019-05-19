@@ -157,7 +157,7 @@ class BiliLive(object):
             'ffmpeg',
             '-y',
             '-f', 'rawvideo',
-            '-vcodec', 'copy',
+            '-vcodec', 'rawvideo',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
             '-re',
