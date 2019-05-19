@@ -176,7 +176,6 @@ class BiliLive(object):
         command = [
             'ffmpeg',
             '-y',
-            '-thread_queue_size', '512',
             '-f', 'rawvideo',
             '-vcodec', 'rawvideo',
             '-pix_fmt', 'bgr24',
