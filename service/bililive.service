@@ -7,8 +7,9 @@ After=network.target
 
 [Service]
 ExecStart=/home/ubuntu/miniconda3/bin/python /server/BiliLive/bililive.py
-ExecStop=
 Restart=always
+User=ubuntu
+Group=ubuntu
 
 [Install]
 WantedBy=multi-user.target
