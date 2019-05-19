@@ -136,7 +136,7 @@ class BiliLive(object):
         """推流线程"""
         time.sleep(2)
         print("PUSH THREAD START")
-        command = [
+        command_old = [
             'ffmpeg',
             '-y',
             '-f', 'alsa',
@@ -150,6 +150,23 @@ class BiliLive(object):
             '-re',
             '-i', '-',
             '-f', 'flv',
+            '-b:v', '1k',
+            self.ru
+        ]
+        command = [
+            'ffmpeg',
+            '-y',
+            '-f', 'alsa',
+            '-i', 'default',
+            '-f', 'rawvideo',
+            '-acodec', 'aac',
+            '-strict', '-2',
+            '-vcodec', 'libx264',
+            '-pix_fmt', 'bgr24',
+            '-s', '1280x720',
+            '-re',
+            '-i', '-',
+            '-f', 'mpegts',
             '-b:v', '1k',
             self.ru
         ]
