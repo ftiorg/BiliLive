@@ -163,7 +163,7 @@ class BiliLive(object):
             '-i', '-',
             '-f', 'alsa',
             '-i', 'default',
-            '-vcodec', 'rawvideo',
+            '-vcodec', 'copy',
             '-acodec', 'aac',
             '-strict', '-2',
             '-map', '0:v:0',
