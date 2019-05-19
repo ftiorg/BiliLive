@@ -21,7 +21,9 @@ from .error import Control
 class BiliLive(object):
 
     def __init__(self):
-        """初始化"""
+        """
+        初始化
+        """
         self.ru = Config.config('rtmp-url')  # 推流地址
         self.et = Timer.str2stamp(Config.config('end-time'))  # 结束时间
         self.rp = Config.config('root-path') + 'BiliLive/'  # BiliLive目录
@@ -41,12 +43,21 @@ class BiliLive(object):
         self.config_init()
 
     def config_init(self):
-        """初始化配置项"""
+        """
+        初始化配置项
+        :return:
+        """
         Config.set('color', (255, 117, 0, 0))
         Config.set('forbid', False)
 
     def make_image(self, text=None, save=None, show=False):
-        """生成帧"""
+        """
+        生成帧
+        :param text:
+        :param save:
+        :param show:
+        :return:
+        """
         if text == None:
             text = str(self.et - Timer.timestamp())
         text_flame = lambda x: ''.zfill(len(x))
@@ -96,7 +107,10 @@ class BiliLive(object):
         return ImageCtrl.image_tostring(image)
 
     def _make_thread(self):
-        """生成图片线程"""
+        """
+        生成图片线程
+        :return: 
+        """
         print("MAKE THREAD START")
         sec = self.st + 2
         count_wd = 0
@@ -121,7 +135,10 @@ class BiliLive(object):
         print("MAKE THREAD EXIT")
 
     def _clean_thread(self):
-        """清理缓存线程"""
+        """
+        清理缓存线程
+        :return:
+        """
         print("CLEAN THREAD START")
         while not self.ef:
             if len(os.listdir(self.rp + 'temp')) >= 5:
@@ -133,7 +150,10 @@ class BiliLive(object):
         print("CLEAN THREAD EXIT")
 
     def _push_thread(self):
-        """推流线程"""
+        """
+        推流线程
+        :return:
+        """
         time.sleep(2)
         print("PUSH THREAD START")
         command_old = [
@@ -194,7 +214,10 @@ class BiliLive(object):
         Control.force_exit()
 
     def _danmu_thread(self):
-        """弹幕处理线程"""
+        """
+        弹幕处理线程
+        :return:
+        """
         print("DANMU THREAD START")
         loop = asyncio.get_event_loop()
         loop.call_soon_threadsafe(DanmuHandle.run(loop))
@@ -207,13 +230,19 @@ class BiliLive(object):
                 print("DANMU THREAD RESTART FAIL %s" % e)
 
     def _clean_temp(self):
-        """删除所有缓存"""
+        """
+        删除所有缓存
+        :return:
+        """
         for file in os.listdir(self.rp + 'temp'):
             os.remove(self.rp + 'temp/' + file)
             print("CLEAN IMAGE -> %s" % file.replace('.jpgx', ''))
 
     def _bgm_thread(self):
-        """背景音乐线程"""
+        """
+        背景音乐线程
+        :return:
+        """
         print("MUSIC THREAD START")
         while not self.ef:
             for music in self.cf['bgm-list']:
@@ -236,20 +265,29 @@ class BiliLive(object):
         print("MUSIC THREAD EXIT")
 
     def _timer_thread(self):
-        """定时器线程"""
+        """
+        定时器线程
+        :return:
+        """
         print("TIMER THREAD START")
         Timer.timer()
         print("TIMER THREAD EXIT")
 
     def __del__(self):
-        """退出时清理"""
+        """
+        退出时清理
+        :return:
+        """
         try:
             self._clean_temp()
         except Exception:
             pass
 
     def run(self):
-        """运行"""
+        """
+        运行
+        :return:
+        """
         Config.config('live') and threading.Thread(target=self._make_thread).start()
         Config.config('live') and threading.Thread(target=self._clean_thread).start()
         Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
