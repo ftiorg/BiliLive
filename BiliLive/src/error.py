@@ -20,4 +20,6 @@ class Control(object):
         :return:
         """
         print("EXIT AT %s" % Timer.stamp2str(Timer.timestamp()))
+        os.system("ps -ef | grep rawvideo | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
+        os.system("ps -ef | grep mpg123 | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
         os.system("ps -ef | grep bililive.py | grep -v grep | awk '{print $2}' | xargs --no-run-if-empty kill")
