@@ -248,6 +248,7 @@ class BiliLive(object):
                         item['path']
                     ]
                     subprocess.Popen(command)
+                    time.sleep(item['length'])
                 except Exception as e:
                     print(e)
         print("MUSIC THREAD EXIT")
