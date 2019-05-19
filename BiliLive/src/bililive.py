@@ -161,11 +161,11 @@ class BiliLive(object):
             '-f', 'rawvideo',
             '-acodec', 'aac',
             '-strict', '-2',
-            '-vcodec', 'libx264',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
             '-re',
             '-i', '-',
+            '-vcodec', 'libx264',
             '-f', 'mpegts',
             '-b:v', '1k',
             self.ru
