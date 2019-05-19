@@ -35,7 +35,7 @@ sudo make install
 ```
 5 添加到系统服务(非必须)
 ```bash
-sudo cp yourpath/BiliLive/service/bililive.service /usr/lib/systemd/system/bililive.service
+sudo cp yourpath/BiliLive/service/bililive.service /etc/systemd/system/bililive.service
 sudo service start bililive
 ```
 6 启动程序

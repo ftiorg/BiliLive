@@ -1,4 +1,4 @@
-# /usr/lib/systemd/system/bililive.service
+# /etc/systemd/system/bililive.service
 
 [Unit]
 Description=BILILIVE
