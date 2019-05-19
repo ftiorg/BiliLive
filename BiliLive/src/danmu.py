@@ -58,7 +58,7 @@ class MyBLiveClient(BLiveClient):
 class DanmuHandle(object):
     @staticmethod
     async def async_main():
-        client = MyBLiveClient(Config.config('room-id'), False)
+        client = MyBLiveClient(Config.get('room-id'), False)
         future = client.run()
         try:
             await future
@@ -81,7 +81,7 @@ class DanmuHandle(object):
     @staticmethod
     def send(msg=None):
         """发送消息"""
-        if msg is None or Config.config('forbid'):
+        if msg is None or Config.get('forbid'):
             return False
         try:
             data = {
@@ -90,18 +90,18 @@ class DanmuHandle(object):
                 "mode": "1",
                 "msg": msg[0:30],
                 "rnd": Timer.timestamp(),
-                "roomid": Config.config('room-id'),
+                "roomid": Config.get('room-id'),
                 "bubble": 0,
-                "csrf_token": Config.config('csrf'),
-                "csrf": Config.config('auth')['csrf']
+                "csrf_token": Config.get('csrf'),
+                "csrf": Config.get('auth')['csrf']
             }
             headers = {
                 "Accept": "application/json, text/javascript, */*; q=0.01",
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 "Origin": "https://live.bilibili.com",
-                "Referer": "https://live.bilibili.com/%d" % Config.config('room-id'),
+                "Referer": "https://live.bilibili.com/%d" % Config.get('room-id'),
                 "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/72.0.3626.121 Safari/537.36",
-                "Cookie": Config.config('auth')['cookie']
+                "Cookie": Config.get('auth')['cookie']
             }
             response = requests.post('https://api.live.bilibili.com/msg/send', data=data, headers=headers)
             print('SEND MSG:%s(%s)' % (msg, response.content.decode()))

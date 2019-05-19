@@ -3,11 +3,11 @@
 # @Time    : 2019/3/16 下午 11:15
 # @Author  : kamino
 
+import os
 import json
 import requests
 import random
 import re
-import os
 import time
 from .database import DbLink
 from .timer import Timer

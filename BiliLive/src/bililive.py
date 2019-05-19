@@ -24,13 +24,13 @@ class BiliLive(object):
         """
         初始化
         """
-        self.ru = Config.config('rtmp-url')  # 推流地址
-        self.et = Timer.str2stamp(Config.config('end-time'))  # 结束时间
-        self.rp = Config.config('root-path') + 'BiliLive/'  # BiliLive目录
+        self.ru = Config.get('rtmp-url')  # 推流地址
+        self.et = Timer.str2stamp(Config.get('end-time'))  # 结束时间
+        self.rp = Config.get('root-path') + 'BiliLive/'  # BiliLive目录
         self.st = Timer.timestamp()  # 开始时间
         self.ef = False  # 错误标识符
-        self.cf = Config.config()  # 配置项
-        self.bn = ''  # 背景音乐
+        self.cf = Config.get()  # 配置项
+        self.bn = None  # 背景音乐
         self.nl = open(os.devnull, 'w')  # 虚空
         self.wd = Extension.GetWord()  # 加个单词
         self.yy = Extension.GetYiyan()  # 一言API
@@ -63,10 +63,10 @@ class BiliLive(object):
         text_flame = lambda x: ''.zfill(len(x))
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
-        if Config.config('color') == (999, 999, 999, 999):
+        if Config.get('color') == (999, 999, 999, 999):
             color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), 0)
         else:
-            color = Config.config('color')
+            color = Config.get('color')
         ct = Timer.stamp2str(time.time())
         image = ImageCtrl.image_create(1280, 720)
         image = ImageCtrl.image_write(image, '距2020考研剩余', (100, 100), 60, color,
@@ -92,7 +92,7 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, 'BGM: 快出来了', (20, 680), 20, color,
+        image = ImageCtrl.image_write(image, 'BGM: %s' % self.bn, (20, 680), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
@@ -239,21 +239,15 @@ class BiliLive(object):
         """
         print("MUSIC THREAD START")
         while not self.ef:
-            for music in self.cf['bgm-list']:
+            music_list = AudioCtrl.audio_list().copy()
+            for item in music_list:
                 try:
-                    p_start = Timer.timestamp()
+                    self.bn = item['name']
                     command = [
-                        'ffmpeg',
-                        '-y',
-                        '-i', music,
-                        '-f', 'flv',
-                        'rtmp://127.0.0.1:1935/rtmp/music'
+                        'mpg123',
+                        item['path']
                     ]
-                    subprocess.call(command, shell=False, stdout=self.nl)
-                    p_stop = Timer.timestamp()
-                    if os.path.exists(music):
-                        length = AudioCtrl.audio_info(music).length
-                        print("WAIT %s" % length - (p_stop - p_start))
+                    subprocess.Popen(command)
                 except Exception as e:
                     print(e)
         print("MUSIC THREAD EXIT")
@@ -282,11 +276,11 @@ class BiliLive(object):
         运行
         :return:
         """
-        Config.config('live') and threading.Thread(target=self._make_thread).start()
-        Config.config('live') and threading.Thread(target=self._clean_thread).start()
-        Config.config('bgm') and threading.Thread(target=self._bgm_thread).start()
-        Config.config('live') and threading.Thread(target=self._push_thread).start()
+        Config.get('live') and threading.Thread(target=self._make_thread).start()
+        Config.get('live') and threading.Thread(target=self._clean_thread).start()
+        Config.get('bgm') and threading.Thread(target=self._bgm_thread).start()
+        Config.get('live') and threading.Thread(target=self._push_thread).start()
         threading.Thread(target=self._timer_thread).start()
         Timer.timer_add(Extension.AutoReboot, 0)
-        if Config.config('robot'):
+        if Config.get('robot'):
             self._danmu_thread()

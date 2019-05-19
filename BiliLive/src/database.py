@@ -12,8 +12,8 @@ class DbLink(object):
     def __init__(self):
         """初始化"""
         try:
-            self.db = pymysql.connect(Config.config('database')['host'], Config.config('database')['user'],
-                                      Config.config('database')['password'], Config.config('database')['dbname'])
+            self.db = pymysql.connect(Config.get('database')['host'], Config.get('database')['user'],
+                                      Config.get('database')['password'], Config.get('database')['dbname'])
         except Exception as e:
             print(e)
             exit(0)

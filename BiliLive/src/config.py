@@ -25,7 +25,7 @@ class Config(object):
         return Config.CONFIG
 
     @staticmethod
-    def config(key=None):
+    def get(key=None):
         """获取配置项"""
         if key == None:
             return Config.CONFIG
