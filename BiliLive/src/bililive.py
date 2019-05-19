@@ -156,17 +156,19 @@ class BiliLive(object):
         command = [
             'ffmpeg',
             '-y',
+            '-f', 'rawvideo',
             '-f', 'alsa',
             '-i', 'default',
-            '-f', 'rawvideo',
+            '-vcodec', 'rawvideo',
             '-acodec', 'aac',
             '-strict', '-2',
+            '-map', '0:v:0',
+            '-map', '1:a:0',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
             '-re',
             '-i', '-',
-            '-vcodec', 'libx264',
-            '-f', 'mpegts',
+            '-f', 'flv',
             '-b:v', '1k',
             self.ru
         ]
