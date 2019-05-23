@@ -2,8 +2,8 @@
 
 [Unit]
 Description=BILILIVE
-Documentation=https://github.com/kamino-space/BiliLive
-After=network.target
+Documentation=https://github.com/isdut/BiliLive
+After=network.target sound.target pulseaudio.service
 
 [Service]
 ExecStart=/home/ubuntu/miniconda3/bin/python /server/BiliLive/bililive.py
