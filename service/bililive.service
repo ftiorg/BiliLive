@@ -10,6 +10,7 @@ ExecStart=/home/ubuntu/miniconda3/bin/python /server/BiliLive/bililive.py
 Restart=always
 User=ubuntu
 Group=ubuntu
+Environment=DISPLAY=:0
 
 [Install]
 WantedBy=multi-user.target
