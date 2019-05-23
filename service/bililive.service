@@ -6,9 +6,11 @@ Documentation=https://github.com/isdut/BiliLive
 After=network.target sound.target pulseaudio.service
 
 [Service]
+Type=simple
 ExecStart=/home/ubuntu/miniconda3/bin/python /server/BiliLive/bililive.py
 Restart=always
-User=root
+User=ubuntu
+Group=ubuntu
 Environment=DISPLAY=:0
 
 [Install]
