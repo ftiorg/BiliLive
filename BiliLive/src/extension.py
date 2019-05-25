@@ -141,7 +141,7 @@ class Extension(object):
         """
         try:
             if Config.get('bgmserver') == 'unix':
-                sock = socket.socket(  )
+                sock = socket.socket(socket.AF_UNIX, socket.SOCK_STREAM)
                 sock.settimeout(10)
                 sock.connect(Config.get('unixpath'))
             else:
