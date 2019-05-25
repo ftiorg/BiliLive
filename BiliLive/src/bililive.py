@@ -174,7 +174,7 @@ class BiliLive(object):
             self.ru
         ]
         command = [
-            '/usr/bin/ffmpeg',
+            'ffmpeg',
             '-y',
             '-f', 'rawvideo',
             '-vcodec', 'rawvideo',
