@@ -92,7 +92,7 @@ class BiliLive(object):
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, 'WWW.ISDUT.CN', (600, 690), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, 'BGM: %s' % self.bn, (20, 680), 20, color,
+        image = ImageCtrl.image_write(image, 'BGM: %s' % Extension.MusicPlayingShow(), (20, 680), 20, color,
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')

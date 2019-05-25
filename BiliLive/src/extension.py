@@ -9,6 +9,7 @@ import requests
 import random
 import re
 import time
+import socket
 from .database import DbLink
 from .timer import Timer
 from .auth import Auth
@@ -130,3 +131,104 @@ class Extension(object):
             time.sleep(60 * 60)
             print("AUTO RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
             Control.force_exit()
+
+    @staticmethod
+    def MusicCtrlCore(arr):
+        """
+        与音乐服务器通信
+        :param arr:
+        :return:
+        """
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(10)
+            sock.connect(('127.0.0.1', 9999))
+            sock.send(json.dumps(arr).encode('utf-8'))
+            recv = json.loads(sock.recv(10240).decode('utf-8'))
+            print(recv)
+            if recv['data'] is False:
+                raise Exception('执行失败')
+            return recv['data']
+        except Exception as e:
+            print(e)
+            return None
+
+    @staticmethod
+    def MusicNext():
+        """
+        下一曲
+        :return:
+        """
+        recv = Extension.MusicCtrlCore({"action": "next"})
+        if recv is None:
+            return '切歌失败'
+        else:
+            return '即将播放 %s' % recv['name']
+
+    @staticmethod
+    def MusicPlaying():
+        """
+        当前播放的啥
+        :return:
+        """
+        recv = Extension.MusicCtrlCore({"action": "playing"})
+        if recv is None:
+            return '不知道呢'
+        else:
+            return '当前播放 %s' % recv['name']
+
+    @staticmethod
+    def MusicPlayingShow():
+        """
+        用于显示
+        :return:
+        """
+        recv = Extension.MusicCtrlCore({"action": "playing"})
+        if recv is None:
+            return 'Unknown'
+        else:
+            return recv['name']
+
+    @staticmethod
+    def MusicWillplay():
+        """
+        下一曲是啥
+        :return:
+        """
+        recv = Extension.MusicCtrlCore({"action": "playing"})
+        if recv is None:
+            return '不知道呢'
+        else:
+            return '下一首 %s' % recv['name']
+
+    @staticmethod
+    def IsAddMusic(text):
+        """
+        判断是否为点歌
+        :param text:
+        :return:
+        """
+        mat = re.search(r'点歌(.*)', text)
+        if mat is None:
+            return False
+        if mat.group(0) == '':
+            return 'https://music.163.com/#/song?id=156811'
+        mid = mat.group(1).strip()
+        try:
+            int(mid)
+            return 'https://music.163.com/#/song?id=%s' % mid
+        except ValueError:
+            return False
+
+    @staticmethod
+    def MusicAdd(url):
+        """
+        点歌
+        :param url: 网易云音乐链接
+        :return:
+        """
+        recv = Extension.MusicCtrlCore({"action": "add", "url": url})
+        if recv is None:
+            return '失败啦'
+        else:
+            return '成功 %s' % recv['name']

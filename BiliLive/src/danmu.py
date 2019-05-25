@@ -12,6 +12,7 @@ from .robot import Robot
 from .database import DbLink
 from .encrypt import Encrypt
 
+"""
 danmu = {'cmd': 'DANMU_MSG', 'info': [[0, 1, 25, 16777215, 1556697136, 1556696728, 0, 'a8442e3f', 0, 0, 0], 'hello',
                                       [61730039, 'kamino大佬的小弟', 1, 0, 0, 10000, 1, ''],
                                       [4, '米鹿', '姬野米鹿', 3556018, 6406234, ''], [24, 0, 5805790, '>50000'], ['', ''], 0,
@@ -28,9 +29,10 @@ gift = {'cmd': 'SEND_GIFT', 'data': {'giftName': '辣条', 'num': 5, 'uname': 'k
                                      'capsule': None, 'addFollow': 0, 'effect_block': 1, 'coin_type': 'silver',
                                      'total_coin': 500, 'effect': 0, 'tag_image': '', 'user_count': 0}}
 
+"""
+
 
 class MyBLiveClient(BLiveClient):
-    # 演示如何自定义handler
     _COMMAND_HANDLERS = BLiveClient._COMMAND_HANDLERS.copy()
     _COMMAND_HANDLERS['DANMU_MSG'] = lambda client, command: client._my_on_get_danmaku(
         command['info'][2][0], command['info'][2][1], command['info'][1]

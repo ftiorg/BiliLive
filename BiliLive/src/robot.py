@@ -39,6 +39,13 @@ class Robot(object):
             return None
         if content == '解除禁言':
             Config.set('forbid', False)
+            return '喵'
+        if content == '切歌' or content == '下一首':
+            return Extension.MusicNext()
+        if content == '下一首是啥':
+            return Extension.MusicWillplay()
+        if Extension.IsAddMusic(content) is not False:
+            return Extension.MusicAdd(Extension.IsAddMusic(content))
 
         return RobotReply.reply(user_id, user_name, content)
 
