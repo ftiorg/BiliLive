@@ -147,7 +147,7 @@ class Extension(object):
             else:
                 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 sock.settimeout(10)
-                sock.connect(('127.0.0.1', 9999))
+                sock.connect((Config.get('tcphost'), int(Config.get('tcpport'))))
             sock.send(json.dumps(arr).encode('utf-8'))
             recv = json.loads(sock.recv(10240).decode('utf-8'))
             print(recv)
