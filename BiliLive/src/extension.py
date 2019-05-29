@@ -135,7 +135,7 @@ class Extension(object):
     @staticmethod
     def MusicCtrlCore(arr):
         """
-        与音乐服务器通信
+        与音乐服务器通信 TODO:整成异步的
         :param arr:
         :return:
         """
