@@ -150,7 +150,6 @@ class Extension(object):
                 sock.connect((Config.get('tcphost'), int(Config.get('tcpport'))))
             sock.send(json.dumps(arr).encode('utf-8'))
             recv = json.loads(sock.recv(10240).decode('utf-8'))
-            print(recv)
             if recv['data'] is False:
                 raise Exception('执行失败')
             return recv['data']
