@@ -79,7 +79,7 @@ class BiliLive(object):
                                       self.rp + 'font/BONX-Frame.otf')
         image = ImageCtrl.image_write(image, '秒', (1100, 300), 60, color,
                                       self.rp + 'font/SetoFont-1.ttf')
-        image = ImageCtrl.image_write(image, '%d天' % (int(text) / 86400), (530, 500), 60,
+        image = ImageCtrl.image_write(image, '%d天' % (int(text) / 86400 + 1), (530, 500), 60,
                                       color,
                                       self.rp + 'font/SetoFont-1.ttf')
         image = ImageCtrl.image_write(image, self.wd[1], (20, 550), 40, color,
@@ -128,7 +128,7 @@ class BiliLive(object):
 
             print("MAKE IMAGE -> %s" % sec)
             with open('{rp}temp/{sec}.jpgx'.format(rp=self.rp, sec=sec), 'wb') as image:
-                image.write(self.make_image(str(self.et - sec + 1)))
+                image.write(self.make_image(str(self.et - sec)))
             sec += 1
             count_wd += 1
             count_yy += 1
