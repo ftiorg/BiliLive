@@ -59,7 +59,7 @@ class BiliLive(object):
         :return:
         """
         if text == None:
-            text = str(self.et - Timer.timestamp() + 1)
+            text = str(self.et - Timer.timestamp())
         text_flame = lambda x: ''.zfill(len(x))
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
@@ -128,7 +128,7 @@ class BiliLive(object):
 
             print("MAKE IMAGE -> %s" % sec)
             with open('{rp}temp/{sec}.jpgx'.format(rp=self.rp, sec=sec), 'wb') as image:
-                image.write(self.make_image(str(self.et - sec)))
+                image.write(self.make_image(str(self.et - sec + 1)))
             sec += 1
             count_wd += 1
             count_yy += 1
