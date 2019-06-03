@@ -59,7 +59,7 @@ class BiliLive(object):
         :return:
         """
         if text == None:
-            text = str(self.et - Timer.timestamp())
+            text = str(self.et - Timer.timestamp() + 1)
         text_flame = lambda x: ''.zfill(len(x))
         location = ((1280 - (len(text) * 200 * 0.5)) / 2, 250)
         size = 200
