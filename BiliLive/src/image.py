@@ -51,3 +51,10 @@ class ImageCtrl(object):
     @staticmethod
     def image_save(image, path):
         cv2.imwrite(path, image)
+
+    @staticmethod
+    def image_cover(image, cover, position=(0, 0)):
+        image = Image.fromarray(cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+        cover = Image.fromarray(cv2.cvtColor(cover, cv2.COLOR_BGR2RGB))
+        image.paste(cover, position)
+        return cv2.cvtColor(numpy.asarray(image), cv2.COLOR_RGB2BGR)

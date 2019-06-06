@@ -96,10 +96,10 @@ class BiliLive(object):
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
         image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
+        image = ImageCtrl.image_cover(image, ImageCtrl.image_read(self.rp + 'image/goldfish.png'), (875, 492))
         for key, rk in enumerate(Extension.SignRank()):
             image = ImageCtrl.image_write(image, rk, (800, key * 24 + 125), 20, color,
                                           self.rp + 'font/SourceHanSansCN-Medium.otf')
-
         if save != None:
             ImageCtrl.image_save(image, save)
         if show:

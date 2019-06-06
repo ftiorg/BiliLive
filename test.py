@@ -6,8 +6,8 @@
 import BiliLive
 
 if __name__ == '__main__':
-    # live = BiliLive.BiliLive()
-    # live.make_image(show=True)
+    live = BiliLive.BiliLive()
+    live.make_image(show=True)
 
     # BiliLive.DanmuHandle.send('你好啊')
     # print(BiliLive.Extension.SignedList())
@@ -19,4 +19,5 @@ if __name__ == '__main__':
     # threading.Thread(target=BiliLive.Timer.timer).start()
     # BiliLive.Timer.timer_add(action=work, arg=(1,), runat=BiliLive.Timer.timestamp() + 5)
     # BiliLive.Timer.timer_add(action=work, arg=(100,), runat=BiliLive.Timer.timestamp() + 10)
-    print(BiliLive.AudioCtrl.audio_list())
+    # print(BiliLive.AudioCtrl.audio_list())
+
