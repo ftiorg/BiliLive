@@ -20,4 +20,3 @@ if __name__ == '__main__':
     # BiliLive.Timer.timer_add(action=work, arg=(1,), runat=BiliLive.Timer.timestamp() + 5)
     # BiliLive.Timer.timer_add(action=work, arg=(100,), runat=BiliLive.Timer.timestamp() + 10)
     # print(BiliLive.AudioCtrl.audio_list())
-

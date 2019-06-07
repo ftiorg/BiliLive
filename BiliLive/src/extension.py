@@ -70,7 +70,7 @@ class Extension(object):
     @staticmethod
     def SignRank():
         """签到排名"""
-        if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
+        if int(Timer.stamp2str(Timer.timestamp(), '%H')) < 4:
             Extension.E['sign'].clear()
             return ['请在4点之后打卡,要注意休息哦']
         if len(Extension.E['sign']) == 0:
