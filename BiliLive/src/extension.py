@@ -51,7 +51,7 @@ class Extension(object):
     def SignAdd(uid, uname):
         """添加签到"""
         Extension.E['user'][uid] = uname
-        if int(Timer.stamp2str(Timer.timestamp(), '%H')) <= 4:
+        if int(Timer.stamp2str(Timer.timestamp(), '%H')) < 4:
             return '请在4点之后打卡,要注意休息哦'
         for k, s in enumerate(Extension.E['sign']):
             if uid in s:

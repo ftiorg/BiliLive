@@ -39,6 +39,6 @@ class Auth(object):
     def get_uname(uid):
         """通过uid获取uname"""
         data = Auth.get_data_by_uid(uid)
-        if data == None and data['status'] != True:
+        if data == None or data['status'] != True:
             return None
         return data['data']['name']
