@@ -49,7 +49,7 @@ class BiliLive(object):
         """
         Config.set('color', (255, 117, 0, 0))
         Config.set('forbid', False)
-        Config.set('addimage', ImageCtrl.image_read(self.rp + 'image/goldfish.png'))
+        # Config.set('addimage', ImageCtrl.image_read(self.rp + 'image/goldfish.png'))
 
     def make_image(self, text=None, save=None, show=False):
         """
@@ -97,7 +97,7 @@ class BiliLive(object):
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
         image = ImageCtrl.image_write(image, '早起打卡前五名', (800, 100), 25, color,
                                       self.rp + 'font/SourceHanSansCN-Medium.otf')
-        image = ImageCtrl.image_cover(image, Config.get('addimage'), (875, 492))
+        # image = ImageCtrl.image_cover(image, Config.get('addimage'), (875, 492))
         for key, rk in enumerate(Extension.SignRank()):
             image = ImageCtrl.image_write(image, rk, (800, key * 24 + 125), 20, color,
                                           self.rp + 'font/SourceHanSansCN-Medium.otf')

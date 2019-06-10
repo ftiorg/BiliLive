@@ -47,7 +47,7 @@ class Timer(object):
                     if not (item['finish'] or item['running']):
                         threading.Thread(target=Timer.timer_run, args=(wid,)).start()
                         Timer.WORKS[wid]['running'] = True
-            time.sleep(0.1)
+            time.sleep(1)
 
     @staticmethod
     def timer_add(action, runat, arg=()):
