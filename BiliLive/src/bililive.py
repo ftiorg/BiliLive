@@ -210,6 +210,7 @@ class BiliLive(object):
                         break
             else:
                 print("IMAGE NOT FOUND {}".format(self.rp + 'temp/%s.jpgx' % ct))
+                Control.force_exit()
         DanmuHandle.send("RESTART AT %s" % Timer.stamp2str(Timer.timestamp(), '%H:%M:%S'))
         print("PUSH THREAD EXIT")
         Control.force_exit()
