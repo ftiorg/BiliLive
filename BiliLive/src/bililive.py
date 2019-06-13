@@ -31,7 +31,6 @@ class BiliLive(object):
         self.ef = False  # 错误标识符
         self.cf = Config.get()  # 配置项
         self.bn = None  # 背景音乐
-        self.nl = open(os.devnull, 'w')  # 虚空
         self.wd = Extension.GetWord()  # 加个单词
         self.yy = Extension.GetYiyan()  # 一言API
         if not os.path.exists(self.rp + 'temp'):
@@ -40,7 +39,6 @@ class BiliLive(object):
         if not os.path.exists(self.rp + 'save'):
             os.mkdir(self.rp + 'save', 777)
             print("CREATE DIR -> SAVE")
-        self.config_init()
 
     def config_init(self):
         """
@@ -133,6 +131,7 @@ class BiliLive(object):
             sec += 1
             count_wd += 1
             count_yy += 1
+            time.sleep(0.01)
         print("MAKE THREAD EXIT")
 
     def _clean_thread(self):
@@ -193,7 +192,7 @@ class BiliLive(object):
             '-b:v', '1k',
             self.ru
         ]
-        pipe = subprocess.Popen(command, stdin=subprocess.PIPE, stdout=self.nl)
+        pipe = subprocess.Popen(command, stdin=subprocess.PIPE)
         while True:
             ct = Timer.timestamp()
             if os.path.exists(self.rp + 'temp/%s.jpgx' % ct):
@@ -279,6 +278,7 @@ class BiliLive(object):
         运行
         :return:
         """
+        self.config_init()
         Config.get('live') and threading.Thread(target=self._make_thread).start()
         Config.get('live') and threading.Thread(target=self._clean_thread).start()
         Config.get('bgm') and threading.Thread(target=self._bgm_thread).start()
