@@ -180,7 +180,7 @@ class BiliLive(object):
             '-vcodec', 'rawvideo',
             '-pix_fmt', 'bgr24',
             '-s', '1280x720',
-            '-re',
+            '-r', '24',
             '-i', '-',
             '-f', 'alsa',
             '-i', 'default',
