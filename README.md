@@ -45,6 +45,15 @@ cp config/config.sample.json config/config.json
 vi config/config.json
 python bililive.py
 ```
+7 解决无法播放画面  
+7.1 在该服务器装一个支持rtmp的nginx
+7.2 config.json里的rtmp-url设置为本地rtmp服务器  
+7.3 使用ffmpeg从本地服务器拉流推流到直播服务器  
+7.4 可使用docker容器  
+```bash
+ffmpeg -re -i rtmp://rtmp ip:1935/live/bililive -acodec aac -strict -2 -f flv $RTMPURL
+```
+  
 **请不要使用root用户运行程序**
 
 修改画面可修改**BiliLive**类的**make_image**函数
@@ -58,7 +67,7 @@ python bililive.py
 如果侵犯了您的版权，请联系开发者，十分感谢
 
 ### TODO
-背景音乐问题
+暂无
 
 ## License
 MIT
