@@ -7,7 +7,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=ffmpeg -re -i rtmp://172.18.0.5:1935/live/bililive -acodec aac -strict -2 -f flv $RTMP
+ExecStart=/usr/bin/ffmpeg -re -i rtmp://172.18.0.5:1935/live/bililive -acodec aac -strict -2 -f flv $RTMP
 Restart=always
 User=ubuntu
 Group=ubuntu
