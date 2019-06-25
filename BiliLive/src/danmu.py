@@ -108,7 +108,7 @@ class DanmuHandle(object):
             response = requests.post('https://api.live.bilibili.com/msg/send', data=data, headers=headers)
             print('SEND MSG:%s(%s)' % (msg, response.content.decode()))
         except Exception as e:
-            print(e)
+            requests.get('https://api.isdut.cn/notice/wx?text={text}&desp={desp}'.format(text=str(e), desp=str(e)))
             return False
 
 
