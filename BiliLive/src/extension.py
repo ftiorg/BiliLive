@@ -15,6 +15,7 @@ from .timer import Timer
 from .auth import Auth
 from .config import Config
 from .error import Control
+from .encrypt import Encrypt
 
 
 class Extension(object):
@@ -236,3 +237,17 @@ class Extension(object):
             return '失败啦'
         else:
             return '成功 %s' % recv['name']
+
+    @staticmethod
+    def HelloKamino(message='hello kamino'):
+        """
+        召唤kamino
+        :return:
+        """
+        try:
+            response = requests.get('https://api.isdut.cn/notice/wx?text=livenotice&desp=%s' % message)
+            print(response.content)
+            if json.loads(response.content.decode('utf-8'))['status'] == True:
+                return '稍等片刻'
+        finally:
+            return '失败啦'

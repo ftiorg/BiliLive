@@ -46,6 +46,8 @@ class Robot(object):
             return Extension.MusicWillplay()
         if Extension.IsAddMusic(content) is not False:
             return Extension.MusicAdd(Extension.IsAddMusic(content))
+        if content == 'hello kamino':
+            return Extension.HelloKamino(user_id)
 
         return RobotReply.reply(user_id, user_name, content)
 
