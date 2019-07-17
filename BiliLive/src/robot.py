@@ -48,6 +48,8 @@ class Robot(object):
             return Extension.MusicAdd(Extension.IsAddMusic(content))
         if content == 'hello kamino':
             return Extension.HelloKamino(user_id)
+        if Extension.HasKey(content, '天'):
+            return Extension.FuxiDays()
 
         return RobotReply.reply(user_id, user_name, content)
 

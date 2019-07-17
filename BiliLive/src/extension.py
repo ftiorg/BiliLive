@@ -101,6 +101,12 @@ class Extension(object):
         return True
 
     @staticmethod
+    def HasKey(text, key):
+        if re.search(key, text) == None:
+            return False
+        return True
+
+    @staticmethod
     def ChgColor(text=None):
         """修改文字颜色"""
         r = re.search(r'color (.*)', text)
@@ -251,3 +257,11 @@ class Extension(object):
                 return '稍等片刻'
         finally:
             return '失败啦'
+
+    @staticmethod
+    def FuxiDays():
+        """
+        剩余天数
+        :return:
+        """
+        return '剩余%d天' % Timer.str2stamp(Config.get('end-time')) - Timer.timestamp() / 86400 + 1
