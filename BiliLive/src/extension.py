@@ -264,4 +264,4 @@ class Extension(object):
         剩余天数
         :return:
         """
-        return '剩余%d天' % Timer.str2stamp(Config.get('end-time')) - Timer.timestamp() / 86400 + 1
+        return '距离2020考研剩余%d天！' % int((Timer.str2stamp(Config.get('end-time')) - Timer.timestamp()) / 86400 + 1)
