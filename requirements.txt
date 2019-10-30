@@ -1,4 +1,4 @@
 mutagen==1.42.0
 numpy==1.11.3
 opencv-python==3.4.3.18
-Pillow==4.2.1
+Pillow==6.2.0
